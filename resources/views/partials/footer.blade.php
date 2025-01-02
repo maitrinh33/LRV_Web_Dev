@@ -9,7 +9,7 @@
                         <div class="text-3xl cursor-pointer flex items-center">
                             <a href="index.html" class="flex justify-center lg:justify-start items-center">
                                 <img src="{{ asset('images/logo/tblogo.png') }}" alt="Tubao Makeup" class="items-center mr-2 w-10 h-auto">
-                                <a href="/index.html" class="lavishly-yours-bold">TuBao Makeup Academy</a>
+                                <a href="{{ url('/') }}" class="lavishly-yours-bold">TuBao Makeup Academy</a>
                             </a>
                         </div>
                     </div>
@@ -47,11 +47,11 @@
                 <div class="w-full text-center lg:w-auto lg:text-left col-span-full sm:order-last sm:col-span-4 md:col-span-4 lg:order-none lg:col-span-1">
                     <h4 class="text-lg text-gray-900 font-medium mb-7">Home</h4>
                     <ul class="text-gray-600 transition-all duration-500  ">
-                        <li class="mb-6"><a href="/src/html/intro.html"  class="text-gray-600 hover:text-gray-900">Introduction</a></li>
-                        <li class="mb-6"><a href="/src/html/course.html"  class=" text-gray-600 hover:text-gray-900">Course</a></li>
-                        <li class="mb-6"><a href="/src/html/service.html"  class=" text-gray-600 hover:text-gray-900">Service</a></li>
+                        <li class="mb-6"><a href="{{ url('/intros') }}"  class="text-gray-600 hover:text-gray-900">Introduction</a></li>
+                        <li class="mb-6"><a href="{{ url('/courses') }}"  class="text-gray-600 hover:text-gray-900">Course</a></li>
+                        <li class="mb-6"><a href="{{ url('/services') }}"  class="text-gray-600 hover:text-gray-900">Service</a></li>
                         <li class="mb-6"><a href="#"  class=" text-gray-600 hover:text-gray-900">Library</a></li>
-                        <li class="sm:mb-6"><a href="/src/html/blog.html"  class=" text-gray-600 hover:text-gray-900">Blog</a></li>
+                        <li class="sm:mb-6"><a href="{{ url('/blogs') }}"  class=" text-gray-600 hover:text-gray-900">Blog</a></li>
                     </ul>
                 </div>
                 <!--End Col-->

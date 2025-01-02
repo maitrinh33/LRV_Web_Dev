@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course; // Make sure to import the Course model
+use App\Models\Course; 
 use Illuminate\Http\Request;
 
 class CourseController extends Controller

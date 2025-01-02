@@ -5,7 +5,7 @@
             <div class="flex justify-between items-center">
                 <span class="text-3xl cursor-pointer flex items-center">
                     <img src="{{ asset('images/logo/tblogo.png') }}" alt="Logo" class="nav-logo w-12 h-auto">
-                    <a href="/index.html" class="lavishly-yours-bold">TuBao Makeup Academy</a>
+                    <a href="{{ url('/') }}" class="lavishly-yours-bold">TuBao Makeup Academy</a>
                 </span>
                 <span class="text-3xl cursor-pointer mx-2 md:hidden block menu-icon">
                     <ion-icon name="menu-outline" onclick="toggleMenu(this)"></ion-icon>
@@ -13,22 +13,22 @@
             </div>
             <ul class="nav-menu bg-white/80 shadow-md backdrop-blur-lg md:backdrop-blur-none md:bg-transparent md:shadow-none md:flex md:items-center md:static absolute w-full left-0 md:w-auto md:py-0 py-4 md:pl-0 pl-7 md:opacity-100 opacity-0 top-[calc(100%+0px)] transition-all duration-500">
                 <li class="mx-4 my-6 md:my-0">
-                    <a href="/src/html/intro.html" class="scope-one-regular hover:text-yellow-800 duration-500">INTRODUCTION</a>
+                    <a href="{{ url('/intros') }}" class="scope-one-regular hover:text-yellow-800 duration-500">INTRODUCTION</a>
                 </li>
                 <li class="mx-4 my-6 md:my-0 relative dropdown">
-                    <a href="/src/html/course.html" class="scope-one-regular hover:text-yellow-800 duration-500">COURSE</a>
+                    <a href="{{ url('/courses') }}" class="scope-one-regular hover:text-yellow-800 duration-500">COURSE</a>
                     <div class="dropdown-content py-2 rounded-md">
-                        <a href="/src/html/course.html#personal-makeup-course" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Personal Makeup Course</a>
-                        <a href="/src/html/course.html#professional-makeup-course" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Professional Makeup Course</a>
-                        <a href="/src/html/course.html#bridal-makeup-course" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Bridal Makeup Course</a>
+                        <a href="{{ url('/courses#personal-makeup-course') }}" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Personal Makeup Course</a>
+                        <a href="{{ url('/courses#professional-makeup-course') }}" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Professional Makeup Course</a>
+                        <a href="{{ url('/courses#bridal-makeup-course') }}" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Bridal Makeup Course</a>
                     </div>
                 </li>
                 <li class="mx-4 my-6 md:my-0 relative dropdown">
-                    <a href="/src/html/service.html" class="scope-one-regular hover:text-yellow-800 duration-500">SERVICE</a>
-                    <div class="dropdown-content py- rounded-md">
-                        <a href="/src/html/service.html#party" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Party Makeup</a>
-                        <a href="/src/html/service.html#bridal" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Bridal Makeup</a>
-                        <a href="/src/html/service.html#ceremony" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Ceremony Makeup</a>
+                    <a href="{{ url('/services') }}" class="scope-one-regular hover:text-yellow-800 duration-500">SERVICE</a>
+                    <div class="dropdown-content py-2 rounded-md">
+                        <a href="{{ url('/services#party') }}" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Party Makeup</a>
+                        <a href="{{ url('/services#bridal') }}" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Bridal Makeup</a>
+                        <a href="{{ url('/services#ceremony') }}" class="scope-one-regular block px-4 py-2 hover:bg-gray-200">Ceremony Makeup</a>
                     </div>
                 </li>
                 <li class="mx-4 my-6 md:my-0">
@@ -126,18 +126,3 @@
         </div>
     </div>
   </header>    
-    <!-- Video Background Section -->
-    <section>
-        <div class="w-full h-400 relative bg-fixed bg-cover bg-center bg-no-repeat video-section" style="height: 470px;">
-            <video class="h-full w-full object-cover rounded-lg" autoplay muted loop>
-                <source src="{{ asset('images/course/coursevideo.mp4') }}" type="video/mp4"/>
-                Your browser does not support the video tag.
-            </video>
-            <div class="absolute inset-0 flex items-center justify-center h-full bg-black bg-opacity-50">
-                <div class="text-center text-white animate__animated animate__fadeIn">
-                    <h1 class="charm-bold text-6xl font-bold mb-4">Welcome to Your Makeup Journey</h1>
-                    <p class="satisfy-regular text-xl mb-8">Discover new skills and techniques that awaken your beauty</p>
-                </div>
-            </div>
-        </div>
-    </section>

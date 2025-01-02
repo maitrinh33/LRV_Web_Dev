@@ -1,0 +1,339 @@
+
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.sticky {
+    position: -webkit-sticky; /* For Safari */
+    position: sticky;
+    top: 0px;
+    z-index: 50;
+    background: white;
+}    
+
+.nav-font {
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+.nav-logo {
+    margin-right: 0.75rem;
+}
+.menu-icon {
+    transition: color 0.3s ease-in-out;
+}
+.menu-icon:hover {
+    color: #a34a28; /* Đổi màu sang cam nâu */
+}
+.nav-menu {
+    transition: all 0.5s ease-in-out;
+    z-index: 50;
+}
+
+
+/* Responsive Dropdown */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    right: 2;
+    min-width: 120px;
+    border-radius: 15px;
+}
+
+
+.bg-custom {
+    background: linear-gradient(135deg, rgba(250, 185, 150, 0.8), rgba(240, 236, 233, 0.8), rgba(184, 208, 227, 0.8)), url('https://media.istockphoto.com/id/1159776728/vi/vec-to/n%E1%BB%81n-h%E1%BB%93ng-satin-l%E1%BB%A5a-m%E1%BB%81m-m%E1%BA%A1i-minh-h%E1%BB%8Da-vect%C6%A1.jpg?s=612x612&w=0&k=20&c=wDPUmSRNkkrCe6lJ55UJkWyAdSU3NuqM-3uO130xqkU=');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+
+.text-custom {
+    color: #a34a28; /* Đổi màu chữ sang cam nâu */
+}
+
+
+.border-custom {
+    border-color: #a34a28; /* Đổi màu viền sang cam nâu */
+}
+
+
+.bg-button {
+    background-color: #a34a28; /* Đổi màu nền nút sang cam nâu */
+    color: white;
+}
+
+
+.text-button {
+    color: white;
+}
+
+
+.header-bg {
+    background-color: white;
+}
+
+
+.content-bg {
+    background-color: #FAF2DD;
+}
+
+
+.content-card {
+    background-color: #F0F0F0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease;
+}
+
+
+.content-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    background-color: white;
+}
+
+
+.category-badge {
+    background-color: #a34a28; /* Đổi màu nền huy hiệu sang cam nâu */
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+
+.category-badge:hover {
+    background-color: #8a391f; /* Đổi màu nền huy hiệu khi hover sang cam nâu đậm */
+}
+
+
+.outer-card {
+    background-color: white;
+    padding: 10px;
+    display: flex;
+    gap: 20px;
+    border-radius: 10px;
+}
+
+
+.inner-card {
+    background-color: #ffffff; /* Màu nền hồng nhạt */
+    box-shadow: 0 4px 6px rgb(80, 77, 74);
+    width: 40%;
+    border-radius: 10px;
+    border: 2px solid #d4aea0; /* Viền màu hồng sáng */
+}
+
+
+.image-placeholder {
+    width: 60%;
+    height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.image-placeholder img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+
+.latest-article-image {
+    width: 100%;
+    height: 0;
+    padding-bottom: 100%;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+
+.latest-article-image img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+
+.btn {
+    transition: all 0.3s ease;
+}
+
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+
+.latest-article-card {
+    font-size: 0.875rem;
+}
+
+
+.latest-article-card h3 {
+    font-size: 1rem;
+}
+
+
+.latest-article-card p {
+    font-size: 0.875rem;
+}
+
+
+.latest-article-card .category-badge {
+    font-size: 0.75rem;
+}
+
+
+@media (max-width: 1024px) {
+    .outer-card {
+        flex-direction: column;
+        align-items: center;
+    }
+
+
+    .inner-card, .image-placeholder {
+        width: 100%;
+        height: auto;
+    }
+
+
+    .inner-card h2 {
+        font-size: 1.25rem;
+    }
+
+
+    .inner-card p {
+        font-size: 1rem;
+    }
+
+
+    .header-bg .container-custom {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+
+@media (max-width: 768px) {
+    .latest-articles-title {
+        font-size: 1.25rem;
+    }
+
+
+    .latest-article-card h3 {
+        font-size: 0.875rem;
+    }
+
+
+    .latest-article-card p {
+        font-size: 0.75rem;
+    }
+
+
+    .category-badge {
+        font-size: 0.5rem;
+    }
+
+
+    .container-custom {
+        padding: 0 10px;
+    }
+}
+
+
+@media (max-width: 640px) {
+    nav {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+    }
+
+
+    nav a {
+        font-size: 0.875rem;
+    }
+
+
+    .btn {
+        font-size: 0.875rem;
+        padding: 0.5rem 1rem;
+    }
+
+
+    .inner-card h2 {
+        font-size: 1rem;
+    }
+
+
+    .inner-card p {
+        font-size: 0.875rem;
+    }
+}
+.video-section {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+.video-section video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: translate(-50%, -50%);
+}
+
+
+.video-section .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: white;
+}
+
+
+.nav-blur {
+    transition: background-color 0.3s ease-in-out;
+    background-color: rgba(255, 255, 255, 0.5);
+}
+a.latest-article-card {
+    text-decoration: none; /* Bỏ gạch chân */
+    color: inherit; /* Giữ nguyên màu chữ */
+    transition: all 0.3s ease; /* Hiệu ứng khi di chuột vào */
+}
+
+
+a.latest-article-card:hover {
+    transform: translateY(-10px); /* Di chuyển lên khi di chuột vào */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Thêm bóng khi di chuột vào */
+    background-color: white; /* Thay đổi màu nền khi di chuột vào */
+}

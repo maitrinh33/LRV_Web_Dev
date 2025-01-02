@@ -20,6 +20,7 @@
     <!-- Styles / Scripts -->
     <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
     <link href="{{ asset('css/course.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/service.css') }}" rel="stylesheet">
     <script type="module" src="/src/scripts/smoothscroll.js"></script>
     <script type="module" src="/src/scripts/course.js"></script>
     <title>Tu Bao Makeup Course</title>
@@ -36,7 +37,7 @@
   </header>
 
   <main class = "bg-custom">
-      @yield('content') <!-- This will render content from your views -->
+      @yield('content') 
   </main>
 
   <footer>

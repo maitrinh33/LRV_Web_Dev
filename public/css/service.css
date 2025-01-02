@@ -1,0 +1,64 @@
+
+* {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+body, html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2.5rem;
+    margin: 0;
+    padding: 0;
+    font-family: var(--mdc-font-family-default-primary);
+}
+.bg-custom {
+    background: linear-gradient(135deg, rgba(250, 185, 150, 0.8), rgba(240, 236, 233, 0.8), rgba(184, 208, 227, 0.8)), url('https://media.istockphoto.com/id/1159776728/vi/vec-to/n%E1%BB%81n-h%E1%BB%93ng-satin-l%E1%BB%A5a-m%E1%BB%81m-m%E1%BA%A1i-minh-h%E1%BB%8Da-vect%C6%A1.jpg?s=612x612&w=0&k=20&c=wDPUmSRNkkrCe6lJ55UJkWyAdSU3NuqM-3uO130xqkU=');
+    background-size: cover;
+    background-attachment: fixed;
+    background-position: center;
+}
+
+
+:root {
+--mdc-font-family-default-primary: 'Open Sans';
+--mdc-font-weight-light: 300;
+--nav-hover-color: #c98b8b;
+}
+
+
+.custom-font {
+font-family: var(--mdc-font-family-default-primary);
+font-weight: 800;
+}
+
+
+.section {
+text-align: center;
+padding: 50px 0;
+}
+
+.divider {
+display: flex;
+justify-content: center;
+align-items: center;
+font-size: 3.5rem;
+}
+
+.divider::before, .divider::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid var(--nav-hover-color);
+margin: 0 20px;
+}
+
+.relative-container {
+position: relative;
+display: flex;
+justify-content: center;
+align-items: center;
+overflow: hidden; /* Ensure overflow doesn't cause layout issues */
+}
+
+
+
+
+
+
