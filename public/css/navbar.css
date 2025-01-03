@@ -67,11 +67,10 @@ body, html {
 }
 /* Font ends here*/
 
-/* nav bar */
+/* Nav bar */
 .sticky {
     position: -webkit-sticky; 
     position: sticky;
-    top: 0px;
     z-index: 50;
 }
 

@@ -11,8 +11,17 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Use the same controller for /courses
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/home', [ServiceController::class, 'index'])->name('homes.index');
 Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 
 
 
+
+Route::middleware([
+    'auth:sanctum',
+    config('jetstream.auth_session'),
+    'verified',
+])->group(function () {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+});

@@ -18,6 +18,7 @@
                 </div>
             </div>
         </section>
+        <!-- Video Background Section -->
 
         <article class="pt-10 px-4 lg:px-20">"
         <!-- Tittle -->  
@@ -25,9 +26,9 @@
             <!-- Brief intro service starts from here -->
             <section class="m-auto max-w-6xl px-16 text-center ">
                 <div class="divider">
-                    <h2 class="text-black mb-5 font-bold">TuBao Makeup Agency</h2>
+                    <h2 class="text-orange-950 mb-5 font-bold satisfy-regular">TuBao Makeup Agency</h2>
                 </div>
-                <div class="text-2xl justify-center uppercase mt-6 mb-24">As the leading beauty-focused agency in the US, we are one of the few agencies able to accommodate services of all sizes, large and small</div>
+                <div class="text-2xl Yrsa justify-center uppercase mt-6 mb-18">As the leading beauty-focused agency in the US, we are one of the few agencies able to accommodate services of all sizes, large and small</div>
             </section>
 
       
@@ -68,9 +69,9 @@
         <!-- Service start from here-->
             <article class="px-10 md:px-12 py-12 text-center ">
                 <div class="divider">
-                    <h2 class="text-black mb-5 font-bold">Luxury, On-Location Services</h2>
+                    <h2 class="text-orange-950 satisfy-regular mb-5 font-bold">Luxury, On-Location Services</h2>
                 </div>
-                <div class="text-2xl justify-center uppercase mt-6 mb-24">AS YOUR PREMIERE BEAUTY DESTINATION, WE OFFER OUR SERVICES EXCLUSIVELY ON-SITE</div>
+                <div class="text-2xl Yrsa justify-center uppercase mt-6 mb-18">AS YOUR PREMIERE BEAUTY DESTINATION, WE OFFER OUR SERVICES EXCLUSIVELY ON-SITE</div>
             <!-- Party Service start from here-->
                 <section id="party" class="mt-12 m-auto -space-y-4 items-center justify-center md:flex md:space-y-0 md:-space-x-4 xl:w-10/12">
                         <div class="relative z-10 -mx-4 group md:w-9/12 md:mx-0 lg:w-9/12">
@@ -247,7 +248,7 @@
                 <div class="flex justify-center"> 
                 <!--Contact Form start from here-->
                 <div id="book-form" class="container px-6 md:px-12">
-                    <div class="block rounded-3xl bg-[hsla(0,0%,100%,0.8)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] md:py-16 md:px-12 -mt-[100px] backdrop-blur-[30px] border border-gray-300">
+                    <div id="book-form" class="block rounded-3xl bg-[hsla(0,0%,100%,0.8)] px-6 py-12 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] md:py-16 md:px-12 -mt-[100px] backdrop-blur-[30px] border border-gray-300">
                     <h2 class="text-black font-bold text-5xl mb-8 text-center">Book Your Appointment Here</h2>
                     <div class="flex flex-wrap justify-center">
                         <div class="w-full md:w-1/2 lg:w-1/3 md:px-3 lg:mb-0">

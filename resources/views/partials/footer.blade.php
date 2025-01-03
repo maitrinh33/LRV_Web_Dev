@@ -1,5 +1,5 @@
 <!--Footer start from here-->
-    <footer class="w-full">
+    <footer class="w-full bg-white">
         <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
             <!--Grid-->
             <div class="grid grid-cols-12 gap-8 py-14 lg:grid-cols-8">

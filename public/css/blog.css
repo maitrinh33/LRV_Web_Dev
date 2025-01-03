@@ -3,59 +3,6 @@
     font-family: Georgia, 'Times New Roman', Times, serif;
 }
 
-.sticky {
-    position: -webkit-sticky; /* For Safari */
-    position: sticky;
-    top: 0px;
-    z-index: 50;
-    background: white;
-}    
-
-.nav-font {
-    font-weight: 600;
-    letter-spacing: 0.05em;
-}
-.nav-logo {
-    margin-right: 0.75rem;
-}
-.menu-icon {
-    transition: color 0.3s ease-in-out;
-}
-.menu-icon:hover {
-    color: #a34a28; /* Đổi màu sang cam nâu */
-}
-.nav-menu {
-    transition: all 0.5s ease-in-out;
-    z-index: 50;
-}
-
-
-/* Responsive Dropdown */
-.dropdown:hover .dropdown-content {
-    display: block;
-}
-
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #fff;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    right: 2;
-    min-width: 120px;
-    border-radius: 15px;
-}
-
-
-.bg-custom {
-    background: linear-gradient(135deg, rgba(250, 185, 150, 0.8), rgba(240, 236, 233, 0.8), rgba(184, 208, 227, 0.8)), url('https://media.istockphoto.com/id/1159776728/vi/vec-to/n%E1%BB%81n-h%E1%BB%93ng-satin-l%E1%BB%A5a-m%E1%BB%81m-m%E1%BA%A1i-minh-h%E1%BB%8Da-vect%C6%A1.jpg?s=612x612&w=0&k=20&c=wDPUmSRNkkrCe6lJ55UJkWyAdSU3NuqM-3uO130xqkU=');
-    background-size: cover;
-    background-attachment: fixed;
-    background-position: center;
-}
-
-
 .text-custom {
     color: #a34a28; /* Đổi màu chữ sang cam nâu */
 }
