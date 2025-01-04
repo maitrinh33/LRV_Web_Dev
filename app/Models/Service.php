@@ -9,10 +9,5 @@ class Service extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'title',
-        'description',
-        'image',
-        'category',  // e.g., 'party', 'bridal', 'ceremony'
-    ];
+    protected $fillable = ['name', 'slug', 'description', 'image_path', 'offered_services'];
 }

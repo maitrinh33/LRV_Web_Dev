@@ -59,7 +59,7 @@
 
     <main class="">
 
-      @yield('content') 
+        @yield('content', $slot ?? '')
         
       @stack('modals')
 

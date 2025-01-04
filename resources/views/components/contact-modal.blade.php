@@ -1,6 +1,6 @@
 <!-- Floating Button -->
 <button id="floatingButton" class="fixed bottom-8 right-5 bg-[#3f170c] text-white quicksand text-lg w-48 rounded-full py-3 px-4 shadow-lg hover:bg-orange-950 transition duration-300" onclick="toggleModal()">
-    Contact Now 🪄
+    Contact Now ❧
 </button>
 
 <!-- Contact Modal -->
