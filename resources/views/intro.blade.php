@@ -334,7 +334,7 @@
 
 
                     <a href="javascript:void(0)" class="text-sm font-medium pl-8 text-white underline lg:text-base hover:text-yellow-300 transition-colors">
-                        Register now→
+                        Register now →
                     </a>
                 </div>
                 <button class="absolute right-0 top-1/2 flex h-6 w-6 -translate-y-1/2 items-center justify-center text-white/50 duration-200 hover:text-white">

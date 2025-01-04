@@ -4,6 +4,7 @@ namespace App\Actions\Fortify;
 
 use App\Models\User;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\UpdatesUserProfileInformation;
@@ -13,10 +14,14 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     /**
      * Validate and update the given user's profile information.
      *
+     * @param  Authenticatable  $user
      * @param  array<string, mixed>  $input
      */
-    public function update(User $user, array $input): void
+    public function update(Authenticatable $user, array $input): void
     {
+        // Cast to User if you need to access User-specific methods
+        $user = $user instanceof User ? $user : User::find($user->id);
+
         Validator::make($input, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
@@ -41,6 +46,7 @@ class UpdateUserProfileInformation implements UpdatesUserProfileInformation
     /**
      * Update the given verified user's profile information.
      *
+     * @param  User  $user
      * @param  array<string, string>  $input
      */
     protected function updateVerifiedUser(User $user, array $input): void
