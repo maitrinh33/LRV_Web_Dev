@@ -37,14 +37,14 @@
                 <li class="mx-4 my-6 md:my-0">
                     <a href="/src/html/blog.html" class="quicksand hover:text-yellow-800 duration-500">Blog</a>
                 </li>
+            
                 <!-- Search -->
-                <form method="GET" action="{{ route('courses.index') }}">
+                <form method="GET" action="{{ route('services.index') }}">
                     <div class="flex justify-between items-center space-x-4">
-                        <input type="text" name="search" placeholder="" value="{{ request('search') }}" 
+                        <input type="text" name="search" placeholder="Search..." value="{{ request('search') }}" 
                         class="w-30 mx-4 my-6 md:my-0 px-2 py-1 border border-gray-300 rounded-full">
                     </div>
                 </form>
-                <!-- Search -->
 
                 <li>
                     @if (Route::has('login'))
