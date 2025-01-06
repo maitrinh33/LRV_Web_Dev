@@ -32,12 +32,15 @@
                     </div>
                 </li>
                 <li class="mx-4 my-6 md:my-0">
-                    <a href="#" class="quicksand hover:text-yellow-800 duration-500">Library</a>
-                </li>
-                <li class="mx-4 my-6 md:my-0">
                     <a href="/src/html/blog.html" class="quicksand hover:text-yellow-800 duration-500">Blog</a>
                 </li>
-            
+
+                @auth
+                <li class="mx-4 my-6 md:my-0">
+                    <a href="{{ url('/appointments') }}" class="quicksand hover:text-yellow-800 duration-500">My Appointment</a>
+                </li>
+                @endauth
+
                 <!-- Search -->
                 <form method="GET" action="{{ route('services.index') }}">
                     <div class="flex justify-between items-center space-x-4">

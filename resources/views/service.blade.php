@@ -96,24 +96,19 @@
             </section> 
         </section>
 
-{{-- Check for flash notification --}}
-@if (session()->has('notification'))
-    @php $notification = session('notification'); @endphp
-    <div class="{{ $notification['type'] === 'success' ? 'bg-green-500' : 'bg-red-500' }} py-2 px-4 rounded-md text-white text-center fixed top-4 right-4 flex gap-4 z-50">
-        <p>{{ $notification['message'] }}</p>
-        <span class="cursor-pointer quicksand font-bold" onclick="return this.parentNode.remove()"><sup>X</sup></span>
-    </div>
-@endif
+        {{-- Check for flash notification --}}
+        @if (session()->has('notification'))
+            @php $notification = session('notification'); @endphp
+            <x-notification :type="$notification['type']" :message="$notification['message']" />
+        @endif
 
-{{-- Check for regular message --}}
-@if (session()->has('message'))
-    <div class="alert alert-success">
-        <button type="button" class="close" data-dismiss="alert">x</button>
-        {{ session()->get('message') }}
-    </div>
-@endif
-
-
+        {{-- Check for regular message --}}
+        @if (session()->has('message'))
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">x</button>
+                {{ session()->get('message') }}
+            </div>
+        @endif
 
         <!--Call to Action-->
         <div class="bg-gray-950 text-white py-24 px-10">

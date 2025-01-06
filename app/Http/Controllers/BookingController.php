@@ -55,10 +55,13 @@ class BookingController extends Controller
         $data->message = $request->message;
         $data->status = 'pending';
 
-        // Assign user ID if authenticated
+        // Assign user_id if authenticated
         if (Auth::check()) {
-            $data->user_id = Auth::id();
+            $data->user_id = Auth::id();  // For authenticated users, store their user_id
+        } else {
+            $data->guest_id = uniqid('guest_');  // For unauthenticated users, assign a guest_id
         }
+
 
         // Save the booking
         $data->save();

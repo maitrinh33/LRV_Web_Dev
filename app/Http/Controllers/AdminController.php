@@ -6,8 +6,25 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    public function index()
+    /**
+     * Show the form to add a new booking.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function addBooking()
     {
-        return view('admin.add_booking'); 
+        return view('admin.add_booking');
     }
+
+    /**
+     * Display a list of all appointments.
+     *
+     * @return \Illuminate\View\View
+     */
+    public function showAppointments()
+    {
+        return view('admin.show_appointments');
+    }
+
+    
 }

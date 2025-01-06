@@ -1,47 +1,55 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CourseController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\IntroController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\BookingController;
+use App\Http\Controllers\{
+    AdminController,
+    HomeController,
+    CourseController,
+    ServiceController,
+    IntroController,
+    DashboardController,
+    BookingController,
+    ProfileController
+};
+use App\Http\Controllers\Api\AppointmentController;
+use App\Http\Controllers\Api\AdminBookingController;
 
-// Use the CourseController for the home route
+
+// Public routes (no authentication required)
 Route::get('/', [HomeController::class, 'index'])->name('homes.index');
-
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.index');
 
-Route::get('/add_booking', [AdminController::class, 'index'])->name('add_booking');
-
-
-// Store the booking
-Route::get('/bookings/create', [BookingController::class, 'create'])->name('bookings.create');
-Route::post('/bookings', [BookingController::class, 'store'])->name('bookings.store');
-// Optional: Other API routes can be added similarly
-Route::get('/bookings', [BookingController::class, 'index'])->name('api.bookings.index');
-Route::get('/bookings/{id}', [BookingController::class, 'show'])->name('api.bookings.show');
-Route::put('/bookings/{id}', [BookingController::class, 'update'])->name('api.bookings.update');
-Route::delete('/bookings/{id}', [BookingController::class, 'destroy'])->name('api.bookings.destroy');
+// Authenticated routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('bookings', BookingController::class);
+    Route::get('index', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('appointments/show', [AdminController::class, 'show'])->name('admin.show'); 
+    Route::patch('/bookings/{id}/approve', [BookingController::class, 'approve'])->name('admin.bookings.approve');
+    Route::patch('/admin/{id}/reject', [BookingController::class, 'reject'])->name('admin.bookings.reject');
 
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+
+    Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
+    Route::post('/admin/bookings/{id}/approve-cancellation', [AdminBookingController::class, 'approveCancellation'])->name('admin.bookings.approveCancellation');
+    Route::post('/admin/bookings/{id}/reject-cancellation', [AdminBookingController::class, 'rejectCancellation'])->name('admin.bookings.rejectCancellation');
+    
+    
+    // Web-only appointments routes
+    Route::resource('appointments', AppointmentController::class)->only(['index', 'edit']);
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
+// Protected by auth middleware
+Route::middleware(['auth'])->patch('/appointments/{id}/cancel', [AppointmentController::class, 'cancel'])
+     ->name('appointments.cancel');
+
+// User profile route
+Route::middleware(['auth'])->get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
+
+
+
 
 
 
