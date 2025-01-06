@@ -30,13 +30,7 @@ Route::middleware(['auth'])->group(function () {
     Route::patch('/bookings/{id}/approve', [BookingController::class, 'approve'])->name('admin.bookings.approve');
     Route::patch('/admin/{id}/reject', [BookingController::class, 'reject'])->name('admin.bookings.reject');
 
-
-
-    Route::get('/admin/bookings', [AdminBookingController::class, 'index'])->name('admin.bookings.index');
-    Route::post('/admin/bookings/{id}/approve-cancellation', [AdminBookingController::class, 'approveCancellation'])->name('admin.bookings.approveCancellation');
-    Route::post('/admin/bookings/{id}/reject-cancellation', [AdminBookingController::class, 'rejectCancellation'])->name('admin.bookings.rejectCancellation');
-    
-    
+      
     // Web-only appointments routes
     Route::resource('appointments', AppointmentController::class)->only(['index', 'edit']);
 });

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -9,72 +8,51 @@ use Illuminate\Http\Request;
 class AdminBookingController extends Controller
 {
     /**
-     * List all bookings with user data, including cancellation requests.
+     * Display a listing of all bookings.
      */
     public function index()
     {
-        // Fetch all bookings with their associated user data, including cancelled bookings
-        $bookings = Booking::with('user')
-            ->where('status', 'cancelled') // Only fetch bookings marked as cancelled
-            ->orWhere('status', 'pending') // Fetch pending bookings as well
-            ->paginate(10);
+        // Fetch all bookings
+        $bookings = Booking::paginate(10); // Adjust number of bookings per page as necessary
+        return response()->json($bookings, 200);
+    }
 
-        return view('admin.bookings.index', compact('bookings'));
+    public function webIndex()
+    {
+        $bookings = Booking::paginate(10); // Fetch all bookings
+        return view('admin.index', compact('bookings')); // Ensure 'admin.index' matches your view path
     }
 
     /**
-     * Approve a cancellation request.
+     * Show the specified booking.
      */
-    public function approveCancellation($id)
+    public function show($id)
     {
-        // Find the booking by ID or fail
         $booking = Booking::findOrFail($id);
+        return response()->json($booking, 200);
+    }
 
-        // Ensure the booking is in 'cancelled' status
-        if ($booking->status !== 'cancelled') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Booking is not marked for cancellation.',
-            ], 400);
-        }
-
-        // Update the booking status to 'cancelled_approved'
-        $booking->status = 'cancelled_approved';
+    /**
+     * Approve the specified booking.
+     */
+    public function approve($id)
+    {
+        $booking = Booking::findOrFail($id);
+        $booking->status = 'approved';
         $booking->save();
 
-        return response()->json([
-            'success' => true,
-            'message' => 'Cancellation approved successfully!',
-            'booking' => $booking,
-        ]);
+        return response()->json(['message' => 'Booking approved successfully.'], 200);
     }
 
     /**
-     * Reject a cancellation request.
+     * Reject the specified booking.
      */
-    public function rejectCancellation(Request $request, $id)
+    public function reject($id)
     {
-        // Find the booking by ID or fail
         $booking = Booking::findOrFail($id);
+        $booking->status = 'rejected';
+        $booking->save();
 
-        // Ensure the booking is in 'cancelled' status
-        if ($booking->status !== 'cancelled') {
-            return response()->json([
-                'success' => false,
-                'message' => 'Booking is not marked for cancellation.',
-            ], 400);
-        }
-
-        // Store the rejection reason and revert the status to its previous state
-        $booking->update([
-            'status' => 'pending', // Revert to 'pending' or the previous status
-            'rejection_reason' => $request->input('reason', 'No reason provided'), // Optional reason
-        ]);
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Cancellation request rejected successfully!',
-            'booking' => $booking,
-        ]);
+        return response()->json(['message' => 'Booking rejected successfully.'], 200);
     }
 }

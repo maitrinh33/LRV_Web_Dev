@@ -11,10 +11,14 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::patch('/appointments/{id}/cancel', [AppointmentController::class, 'cancel'])
         ->name('api.appointments.cancel');
 
+    Route::resource('admin/bookings', AdminBookingController::class)->only(['index', 'show']);
+    // Custom routes for approving and rejecting
+    Route::patch('/admin/bookings/{id}/approve', [AdminBookingController::class, 'approve'])->name('admin.bookings.approve');
+    Route::patch('/admin/bookings/{id}/reject', [AdminBookingController::class, 'reject'])->name('admin.bookings.reject');
+    
+    Route::get('/admin/bookings', [AdminBookingController::class, 'webIndex'])->name('admin.bookings.index');
+        
 
-        Route::get('/admin/bookings', [AdminBookingController::class, 'index']);
-        Route::patch('/admin/bookings/{id}/approve', [AdminBookingController::class, 'approve']);
-        Route::patch('/admin/bookings/{id}/reject', [AdminBookingController::class, 'reject']);
 });
 
 // Debug user info (optional)
