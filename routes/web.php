@@ -9,12 +9,15 @@ use App\Http\Controllers\{
     IntroController,
     DashboardController,
     BookingController,
-    ProfileController
+    ProfileController,
+
 };
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AdminBookingController;
-
-
+use App\Http\Controllers\Web\AppointmentWebController;
+Route::get('/csrf-token', function () {
+    return response()->json(['csrf_token' => csrf_token()]);
+});
 // Public routes (no authentication required)
 Route::get('/', [HomeController::class, 'index'])->name('homes.index');
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
@@ -26,25 +29,15 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('bookings', BookingController::class);
     Route::get('index', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('appointments/show', [AdminController::class, 'show'])->name('admin.show'); 
+    Route::get('appointments/show', [AdminController::class, 'show'])->name('admin.show');
     Route::patch('/bookings/{id}/approve', [BookingController::class, 'approve'])->name('admin.bookings.approve');
     Route::patch('/admin/{id}/reject', [BookingController::class, 'reject'])->name('admin.bookings.reject');
 
-      
-    // Web-only appointments routes
-    Route::resource('appointments', AppointmentController::class)->only(['index', 'edit']);
+    // Appointment web routes
+    Route::get('appointments', [AppointmentWebController::class, 'index'])->name('appointments.index');
+    Route::get('appointments/{id}/edit', [AppointmentWebController::class, 'edit'])->name('appointments.edit');
+    Route::post('appointments/{id}/cancel', [AppointmentWebController::class, 'cancel'])->name('appointments.cancel');
 });
-
-// Protected by auth middleware
-Route::middleware(['auth'])->patch('/appointments/{id}/cancel', [AppointmentController::class, 'cancel'])
-     ->name('appointments.cancel');
 
 // User profile route
 Route::middleware(['auth'])->get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
-
-
-
-
-
-
-

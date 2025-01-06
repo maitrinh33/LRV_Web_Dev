@@ -122,7 +122,7 @@
     @foreach ($appointments as $appointment)
     <form id="cancel-form-{{ $appointment->id }}" action="{{ route('appointments.cancel', $appointment->id) }}" method="POST" style="display: none;">
         @csrf
-        @method('PATCH')
+        @method('POST')
     </form>
     @endforeach
 

@@ -7,87 +7,49 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Database\Query\Builder;
 
 class AppointmentController extends Controller
 {
     /**
-     * Display a listing of the resource for the web view.
+     * API method to fetch appointments for the authenticated user with optional search.
      */
-    public function index()
+    public function Index(Request $request)
     {
-        $user = Auth::user();
-    
-        // Default query to get appointments for the authenticated user
-        $appointments = Booking::where('user_id', $user->id);
-    
-        // Apply search filter if a search term is provided
-        if (request('search')) {
-            $appointments->where('name', 'like', '%' . request('search') . '%')
-                         ->orWhere('service', 'like', '%' . request('search') . '%')
-                         ->orWhere('phone', 'like', '%' . request('search') . '%')
-                         ->orWhere('created_at', 'like', '%' . request('created_at') . '%')
-                         ->orWhere('updated_at', 'like', '%' . request('updated_at') . '%')
-                         ->orWhere('status', 'like', '%' . request('status') . '%')
-                         ->orWhere('message', 'like', '%' . request('message') . '%')
-                         ->orWhere('phone', 'like', '%' . request('search') . '%');
+        // Ensure user is authenticated
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
         }
-    
-        // Paginate the results
-        $appointments = $appointments->paginate(5); // Or any other number for pagination
-    
-        return view('user.my_appointment', compact('appointments'));
-    }
-    
-    public function search(Request $request)
-    {
-        $user = Auth::user();
-        
-        // Default query to get appointments for the authenticated user
+
+        $user = Auth::user(); // Get the authenticated user
         $appointments = Booking::where('user_id', $user->id);
-    
+
         // Apply search filter if a search term is provided
         if ($request->has('search') && $request->search != '') {
             $appointments->where('name', 'like', '%' . $request->search . '%')
                          ->orWhere('service', 'like', '%' . $request->search . '%')
                          ->orWhere('phone', 'like', '%' . $request->search . '%');
         }
-    
-        // Paginate the results after filtering
-        $appointments = $appointments->paginate(5); 
-    
-        return view('user.my_appointment', compact('appointments'));
-    }
-    
-    /**
-     * API method to fetch appointments for the authenticated user.
-     */
-    public function apiIndex()
-    {
-        // Ensure user is authenticated
-        if (!Auth::check()) {
-            return response()->json(['error' => 'Unauthorized'], 401); // Unauthorized if not authenticated
-        }
-    
-        $user = Auth::user(); // Get the authenticated user
-        $appointments = Booking::where('user_id', $user->id)->get(); // Fetch appointments for the authenticated user
-        $appointments = $appointments->paginate(55);
+
+        // Paginate the results
+        $appointments = $appointments->paginate(4);
+
         return response()->json($appointments, 200); // Return appointments for the authenticated user
     }
-    
+
     /**
-     * Store a newly created resource in storage (API or Web).
+     * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        // Validation
         $validator = Validator::make($request->all(), [
             'date' => 'required|date|after_or_equal:today',
             'time' => 'required|date_format:H:i',
-            'service_id' => 'required|exists:services,id', // Assuming services table exists
+            'service_id' => 'required|exists:services,id',
         ]);
-
+    
         if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+            return redirect()->back()->withErrors($validator)->withInput();
         }
 
         // Create appointment
@@ -120,82 +82,41 @@ class AppointmentController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Find the appointment or fail with a 404 error
         $appointment = Booking::findOrFail($id);
+    
+        // Authorize the user
         if ($response = $this->authorizeUser($appointment)) {
             return $response;
         }
-
-        // Validation
+    
+        // Check if cancellation is requested
+        if ($request->has('cancel') && $request->cancel) {
+            // Update the appointment to cancelled
+            $appointment->update([
+                'status' => 'cancelled',
+                'cancellation_reason' => $request->reason ?? 'User cancelled the booking', // Default reason if not provided
+            ]);
+            
+            return response()->json(['message' => 'Appointment cancelled successfully.'], 200);
+        }
+    
+        // Validation for other updates
         $validator = Validator::make($request->all(), [
             'date' => 'sometimes|date|after_or_equal:today',
             'time' => 'sometimes|date_format:H:i',
         ]);
-
+    
+        // Check if validation fails
         if ($validator->fails()) {
             return response()->json(['errors' => $validator->errors()], 422);
         }
-
+    
+        // Update the appointment with the validated data
         $appointment->update($request->only(['date', 'time']));
+    
         return response()->json($appointment, 200);
     }
-
-    /**
-     * Cancel the appointment.
-     */
-    public function cancel($id)
-    {
-        // Fetch the booking
-        $booking = Booking::findOrFail($id);
-    
-        // Check if the current user owns the booking
-        if ($booking->user_id !== Auth::id()) {
-            return redirect()->back()->with('notification', [
-                'type' => 'error',
-                'message' => 'Unauthorized to cancel this booking.',
-            ]);
-        }
-    
-        try {
-            // Update the booking's status and cancellation reason
-            $booking->update([
-                'status' => 'cancelled', // Update status to 'cancelled'
-                'cancellation_reason' => 'User cancelled the booking', // Store the reason
-            ]);
-    
-            // Flash a success notification
-            session()->flash('notification', [
-                'type' => 'success',
-                'message' => 'Appointment cancelled successfully.',
-            ]);
-    
-            // Redirect back with a success message
-            return redirect()->back()->with('message', 'Your booking has been cancelled.');
-        } catch (\Exception $e) {
-            // Flash an error notification if something goes wrong
-            session()->flash('notification', [
-                'type' => 'error',
-                'message' => 'There was an error cancelling your booking. Please try again.',
-            ]);
-    
-            // Redirect back with an error message
-            return redirect()->back()->with('message', 'Cancellation failed. Please try again later.');
-        }
-    }
-     
-    
-    /**
-     * Edit the specified appointment (Web).
-     */
-    public function edit($id)
-    {
-        $appointment = Booking::findOrFail($id);
-        if ($this->authorizeUser($appointment)) {
-            return redirect()->route('appointments.index')->with('error', 'Unauthorized access.');
-        }
-
-        return view('appointments.edit', compact('appointment'));
-    }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -210,6 +131,40 @@ class AppointmentController extends Controller
         $appointment->delete();
 
         return response()->json(['message' => 'Appointment deleted successfully.'], 200);
+    }
+
+    public function search(Request $request)
+    {
+        // Initialize a query on the Booking model
+        $query = Booking::query();
+    
+        // Check for search parameters
+        if ($request->has('name')) {
+            $query->where('name', 'like', '%' . $request->input('name') . '%');
+        }
+        
+        if ($request->has('email')) {
+            $query->where('email', 'like', '%' . $request->input('email') . '%');
+        }
+    
+        if ($request->has('date')) {
+            $query->whereDate('date', $request->input('date'));
+        }
+    
+        if ($request->has('status')) {
+            $query->where('status', $request->input('status'));
+        }
+    
+        // Check for sorting parameters
+        if ($request->has('sort_by')) {
+            $query->orderBy($request->input('sort_by'), $request->input('sort_order', 'asc'));
+        }
+    
+        // Execute the query and paginate results
+        $appointments = $query->paginate(10); // Adjust the number as needed
+    
+        // Return results as JSON
+        return response()->json($appointments, 200);
     }
 
     /**

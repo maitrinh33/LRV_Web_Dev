@@ -62,16 +62,6 @@ class RegisterController extends Controller
             'address' => $data['address'],
             'password' => Hash::make($data['password']),
         ]);
-
-        // Create a personal access token for the user
-        $token = $user->createToken('Makeup Service Token')->plainTextToken;
-
-        // Optionally, return the user and token in the response
-        return response()->json([
-            'message' => 'Registration successful',
-            'user' => $user,
-            'token' => $token,
-        ], 201);
     }
 }
 
