@@ -15,6 +15,9 @@ use App\Http\Controllers\{
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AdminBookingController;
 use App\Http\Controllers\Web\AppointmentWebController;
+use App\Mail\BookingConfirmationMail;
+use Illuminate\Support\Facades\Mail;
+use App\Models\Booking;
 Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
@@ -25,6 +28,17 @@ Route::get('/services', [ServiceController::class, 'index'])->name('services.ind
 Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
 Route::resource('bookings', BookingController::class);
+
+Route::get('/send-test-email', function () {
+    $booking = Booking::first(); // Lấy bản ghi đầu tiên từ bảng bookings
+    if ($booking) {
+        Mail::to('test@example.com')->send(new BookingConfirmationMail($booking));
+        return 'Test email has been sent!';
+    } else {
+        return 'No booking found!';
+    }
+});
+
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
 

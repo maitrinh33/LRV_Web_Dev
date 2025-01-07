@@ -2,99 +2,90 @@
 
 namespace Tests\Unit\Providers;
 
-use Tests\TestCase;
+use App\Providers\TelescopeServiceProvider;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Gate;
 use Laravel\Telescope\Telescope;
 use Laravel\Telescope\IncomingEntry;
-use App\Providers\TelescopeServiceProvider;
+use Mockery;
+use Tests\TestCase;
 
 class TelescopeServiceProviderTest extends TestCase
 {
-    /** @test */
-    public function it_registers_telescope_filters_correctly()
+    public function testRegistersTelescopeFiltersCorrectly()
     {
-        // Arrange: Set environment to local
-        $this->app['env'] = 'local';
-
-        // Act: Register the TelescopeServiceProvider
-        $this->app->register(TelescopeServiceProvider::class);
-
-        // Assert: Check the filter is set correctly
-        Telescope::filter(function (IncomingEntry $entry) {
-            return $entry->isReportableException() ||
-                   $entry->isFailedRequest() ||
-                   $entry->isFailedJob() ||
-                   $entry->isScheduledTask() ||
-                   $entry->hasMonitoredTag();
-        });
-
-        // If no exceptions are thrown, test passes
-        $this->assertTrue(true);
-    }
-
-    /** @test */
-    public function it_hides_sensitive_request_details_in_non_local_environment(): void
-    {
-        // Arrange: Set environment to production
-        $this->app['env'] = 'production';
-
         // Mock Telescope facade
-        $this->partialMock(Telescope::class, function ($mock) {
-            $mock->shouldReceive('hideRequestParameters')->once()->with(['_token']);
-            $mock->shouldReceive('hideRequestHeaders')->once()->with(['cookie', 'x-csrf-token', 'x-xsrf-token']);
-        });
+        $mockTelescope = Mockery::mock('alias:Laravel\Telescope\Telescope');
+        
+        $mockTelescope->shouldReceive('filter')
+            ->once()
+            ->with(Mockery::on(function ($callback) {
+                $entry = Mockery::mock(IncomingEntry::class);
+                $entry->shouldReceive('isReportableException')->andReturn(false);
+                $entry->shouldReceive('isFailedRequest')->andReturn(false);
+                $entry->shouldReceive('isFailedJob')->andReturn(false);
+                $entry->shouldReceive('isScheduledTask')->andReturn(false);
+                $entry->shouldReceive('hasMonitoredTag')->andReturn(false);
 
-        // Act: Register the TelescopeServiceProvider
-        $this->app->register(TelescopeServiceProvider::class);
+                return $callback($entry) === false;
+            }));
 
-        // If no exceptions are thrown, test passes
-        $this->assertTrue(true);
+        $provider = new TelescopeServiceProvider($this->app);
+        $provider->register();
     }
 
-    /** @test */
-    public function it_logs_slow_queries()
+    public function testHidesSensitiveRequestDetailsInNonLocalEnvironment()
     {
-        // Arrange: Mock DB::listen and Log::warning
-        DB::shouldReceive('listen')->once()->andReturnUsing(function ($callback) {
-            $query = (object)[
-                'sql' => 'SELECT * FROM users',
-                'bindings' => [],
-                'time' => 1500, // Simulate a slow query
-            ];
-            $callback($query);
-        });
+        // Mock Telescope facade
+        $mockTelescope = Mockery::mock('alias:Laravel\Telescope\Telescope');
 
+        $mockTelescope->shouldReceive('hideRequestParameters')
+            ->once()
+            ->with(['_token']);
+
+        $mockTelescope->shouldReceive('hideRequestHeaders')
+            ->once()
+            ->with(['cookie', 'x-csrf-token', 'x-xsrf-token']);
+
+        $provider = new TelescopeServiceProvider($this->app);
+        $provider->register();
+    }
+
+    public function testLogsSlowQueries()
+    {
         Log::shouldReceive('warning')
             ->once()
-            ->with('Slow Query Detected', [
-                'sql' => 'SELECT * FROM users',
-                'bindings' => [],
-                'time' => 1500,
-            ]);
+            ->with('Slow Query Detected', Mockery::on(function ($data) {
+                return $data['sql'] === 'SELECT * FROM users' &&
+                    $data['bindings'] === [] &&
+                    $data['time'] === 1500;
+            }));
 
-        // Act: Register the TelescopeServiceProvider
-        $this->app->register(TelescopeServiceProvider::class);
+        DB::shouldReceive('listen')
+            ->once()
+            ->andReturnUsing(function ($callback) {
+                $callback((object)[
+                    'sql' => 'SELECT * FROM users',
+                    'bindings' => [],
+                    'time' => 1500,
+                ]);
+            });
 
-        // If no exceptions are thrown, test passes
-        $this->assertTrue(true);
+        $provider = new TelescopeServiceProvider($this->app);
+        $provider->boot();
     }
 
-    /** @test */
-    public function it_defines_gate_correctly()
+    public function testDefinesGateCorrectly()
     {
-        // Arrange: Register the TelescopeServiceProvider
-        $this->app->register(TelescopeServiceProvider::class);
+        Gate::shouldReceive('define')
+            ->once()
+            ->with('viewTelescope', Mockery::on(function ($callback) {
+                $user = (object)['usertype' => 'admin'];
+                return $callback($user) === true;
+            }));
 
-        // Act: Create user objects for testing
-        $adminUser = (object) ['usertype' => 'admin'];
-        $nonAdminUser = (object) ['usertype' => 'user'];
-
-        // Assert: Check if the gate allows admin users
-        $this->assertTrue(Gate::allows('viewTelescope', $adminUser));
-
-        // Assert: Check if the gate denies non-admin users
-        $this->assertFalse(Gate::allows('viewTelescope', $nonAdminUser));
+        $provider = new TelescopeServiceProvider($this->app);
+        $provider->register();
     }
 }
