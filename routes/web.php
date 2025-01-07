@@ -28,9 +28,9 @@ Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 Route::middleware(['auth'])->group(function () {
 
     Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
-    
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('bookings', BookingController::class);
+
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('index', [AdminController::class, 'index'])->name('admin.index');
     Route::get('appointments/show', [AdminController::class, 'show'])->name('admin.show');
     Route::patch('/bookings/{id}/approve', [BookingController::class, 'approve'])->name('admin.bookings.approve');
