@@ -23,12 +23,10 @@ Route::get('/', [HomeController::class, 'index'])->name('homes.index');
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
 Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
-
+Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
+Route::resource('bookings', BookingController::class);
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
-
-    Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
-    Route::resource('bookings', BookingController::class);
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('index', [AdminController::class, 'index'])->name('admin.index');

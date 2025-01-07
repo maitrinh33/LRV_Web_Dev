@@ -10,7 +10,7 @@
     ],
     "info": {
         "name": "My TuBao Makeup Laravel API Documentation",
-        "_postman_id": "e3ac8510-97da-4665-a6a0-409e16ebf33c",
+        "_postman_id": "e1cd7ad0-4c33-4bdb-a436-9d7f4558a756",
         "description": "This is the documentation for the My Tubao Makeup Laravel API.",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
@@ -20,7 +20,7 @@
             "description": "",
             "item": [
                 {
-                    "name": "API method to fetch appointments for the authenticated user with optional search.",
+                    "name": "GET api\/appointments",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -68,7 +68,7 @@
                     ]
                 },
                 {
-                    "name": "Store a newly created resource in storage.",
+                    "name": "POST api\/appointments",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -89,7 +89,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"date\":\"2116-10-10\",\"time\":\"23:26\",\"service_id\":\"soluta\"}"
+                            "raw": "{\"name\":\"suscipit\",\"email\":\"upton.bettye@example.com\",\"phone\":\"ratione\",\"date\":\"2025-01-07T08:44:14\",\"time\":\"et\",\"message\":\"cum\"}"
                         },
                         "description": "",
                         "auth": {
@@ -99,7 +99,7 @@
                     "response": []
                 },
                 {
-                    "name": "Display the specified resource.",
+                    "name": "GET api\/appointments\/{id}",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -110,7 +110,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "nihil",
+                                    "value": "dignissimos",
                                     "description": "The ID of the appointment."
                                 }
                             ]
@@ -155,7 +155,7 @@
                     ]
                 },
                 {
-                    "name": "Update the specified resource in storage.",
+                    "name": "PUT api\/appointments\/{id}",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -166,7 +166,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "nemo",
+                                    "value": "quia",
                                     "description": "The ID of the appointment."
                                 }
                             ]
@@ -184,7 +184,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"date\":\"2055-07-03\",\"time\":\"23:26\"}"
+                            "raw": "{\"date\":\"2052-11-02\",\"time\":\"08:44\"}"
                         },
                         "description": "",
                         "auth": {
@@ -194,7 +194,7 @@
                     "response": []
                 },
                 {
-                    "name": "Remove the specified resource from storage.",
+                    "name": "DELETE api\/appointments\/{id}",
                     "request": {
                         "url": {
                             "host": "{{baseUrl}}",
@@ -205,7 +205,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "excepturi",
+                                    "value": "voluptatem",
                                     "description": "The ID of the appointment."
                                 }
                             ]
@@ -289,7 +289,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "architecto",
+                                    "value": "illo",
                                     "description": "The ID of the booking."
                                 }
                             ]
@@ -345,7 +345,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "aut",
+                                    "value": "est",
                                     "description": "The ID of the booking."
                                 }
                             ]
@@ -381,7 +381,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "eveniet",
+                                    "value": "sit",
                                     "description": "The ID of the booking."
                                 }
                             ]
@@ -406,54 +406,6 @@
                     "response": []
                 },
                 {
-                    "name": "GET api\/appointments\/search",
-                    "request": {
-                        "url": {
-                            "host": "{{baseUrl}}",
-                            "path": "api\/appointments\/search",
-                            "query": [],
-                            "raw": "{{baseUrl}}\/api\/appointments\/search"
-                        },
-                        "method": "GET",
-                        "header": [
-                            {
-                                "key": "Content-Type",
-                                "value": "application\/json"
-                            },
-                            {
-                                "key": "Accept",
-                                "value": "application\/json"
-                            }
-                        ],
-                        "body": null,
-                        "description": "",
-                        "auth": {
-                            "type": "noauth"
-                        }
-                    },
-                    "response": [
-                        {
-                            "header": [
-                                {
-                                    "key": "cache-control",
-                                    "value": "no-cache, private"
-                                },
-                                {
-                                    "key": "content-type",
-                                    "value": "application\/json"
-                                },
-                                {
-                                    "key": "access-control-allow-origin",
-                                    "value": "*"
-                                }
-                            ],
-                            "code": 401,
-                            "body": "{\"message\":\"Unauthenticated.\"}",
-                            "name": ""
-                        }
-                    ]
-                },
-                {
                     "name": "POST api\/login",
                     "request": {
                         "url": {
@@ -475,7 +427,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"email\":\"nkreiger@example.org\",\"password\":\"autem\"}"
+                            "raw": "{\"email\":\"kling.libby@example.net\",\"password\":\"quo\"}"
                         },
                         "description": "",
                         "auth": {

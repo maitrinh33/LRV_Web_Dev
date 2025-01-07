@@ -74,19 +74,19 @@
                 </li>
                                     <ul id="tocify-subheader-endpoints" class="tocify-subheader">
                                                     <li class="tocify-item level-2" data-unique="endpoints-GETapi-appointments">
-                                <a href="#endpoints-GETapi-appointments">API method to fetch appointments for the authenticated user with optional search.</a>
+                                <a href="#endpoints-GETapi-appointments">GET api/appointments</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-appointments">
-                                <a href="#endpoints-POSTapi-appointments">Store a newly created resource in storage.</a>
+                                <a href="#endpoints-POSTapi-appointments">POST api/appointments</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-appointments--id-">
-                                <a href="#endpoints-GETapi-appointments--id-">Display the specified resource.</a>
+                                <a href="#endpoints-GETapi-appointments--id-">GET api/appointments/{id}</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-PUTapi-appointments--id-">
-                                <a href="#endpoints-PUTapi-appointments--id-">Update the specified resource in storage.</a>
+                                <a href="#endpoints-PUTapi-appointments--id-">PUT api/appointments/{id}</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-DELETEapi-appointments--id-">
-                                <a href="#endpoints-DELETEapi-appointments--id-">Remove the specified resource from storage.</a>
+                                <a href="#endpoints-DELETEapi-appointments--id-">DELETE api/appointments/{id}</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-GETapi-admin-bookings">
                                 <a href="#endpoints-GETapi-admin-bookings">GET api/admin/bookings</a>
@@ -99,9 +99,6 @@
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-PATCHapi-admin-bookings--id--reject">
                                 <a href="#endpoints-PATCHapi-admin-bookings--id--reject">Reject the specified booking.</a>
-                            </li>
-                                                                                <li class="tocify-item level-2" data-unique="endpoints-GETapi-appointments-search">
-                                <a href="#endpoints-GETapi-appointments-search">GET api/appointments/search</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="endpoints-POSTapi-login">
                                 <a href="#endpoints-POSTapi-login">POST api/login</a>
@@ -120,7 +117,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: January 6, 2025</li>
+        <li>Last updated: January 7, 2025</li>
     </ul>
 </div>
 
@@ -145,7 +142,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 
     
 
-                                <h2 id="endpoints-GETapi-appointments">API method to fetch appointments for the authenticated user with optional search.</h2>
+                                <h2 id="endpoints-GETapi-appointments">GET api/appointments</h2>
 
 <p>
 </p>
@@ -299,7 +296,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                         </form>
 
-                    <h2 id="endpoints-POSTapi-appointments">Store a newly created resource in storage.</h2>
+                    <h2 id="endpoints-POSTapi-appointments">POST api/appointments</h2>
 
 <p>
 </p>
@@ -317,9 +314,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}" \
     --data "{
-    \"date\": \"2116-10-10\",
-    \"time\": \"23:26\",
-    \"service_id\": \"soluta\"
+    \"name\": \"suscipit\",
+    \"email\": \"upton.bettye@example.com\",
+    \"phone\": \"ratione\",
+    \"date\": \"2025-01-07T08:44:14\",
+    \"time\": \"et\",
+    \"message\": \"cum\"
 }"
 </code></pre></div>
 
@@ -336,9 +336,12 @@ const headers = {
 };
 
 let body = {
-    "date": "2116-10-10",
-    "time": "23:26",
-    "service_id": "soluta"
+    "name": "suscipit",
+    "email": "upton.bettye@example.com",
+    "phone": "ratione",
+    "date": "2025-01-07T08:44:14",
+    "time": "et",
+    "message": "cum"
 };
 
 fetch(url, {
@@ -360,9 +363,12 @@ $response = $client-&gt;post(
             'Authorization' =&gt; 'Bearer {token}',
         ],
         'json' =&gt; [
-            'date' =&gt; '2116-10-10',
-            'time' =&gt; '23:26',
-            'service_id' =&gt; 'soluta',
+            'name' =&gt; 'suscipit',
+            'email' =&gt; 'upton.bettye@example.com',
+            'phone' =&gt; 'ratione',
+            'date' =&gt; '2025-01-07T08:44:14',
+            'time' =&gt; 'et',
+            'message' =&gt; 'cum',
         ],
     ]
 );
@@ -455,15 +461,48 @@ You can check the Dev Tools console for debugging information.</code></pre>
             </div>
                                 <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="name"                data-endpoint="POSTapi-appointments"
+               value="suscipit"
+               data-component="body">
+    <br>
+<p>Example: <code>suscipit</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="email"                data-endpoint="POSTapi-appointments"
+               value="upton.bettye@example.com"
+               data-component="body">
+    <br>
+<p>Must be a valid email address. Example: <code>upton.bettye@example.com</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>phone</code></b>&nbsp;&nbsp;
+<small>string</small>&nbsp;
+ &nbsp;
+                <input type="text" style="display: none"
+                              name="phone"                data-endpoint="POSTapi-appointments"
+               value="ratione"
+               data-component="body">
+    <br>
+<p>Example: <code>ratione</code></p>
+        </div>
+                <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>date</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
  &nbsp;
                 <input type="text" style="display: none"
                               name="date"                data-endpoint="POSTapi-appointments"
-               value="2116-10-10"
+               value="2025-01-07T08:44:14"
                data-component="body">
     <br>
-<p>Must be a valid date. Must be a date after or equal to <code>today</code>. Example: <code>2116-10-10</code></p>
+<p>Must be a valid date. Example: <code>2025-01-07T08:44:14</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>time</code></b>&nbsp;&nbsp;
@@ -471,25 +510,25 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="time"                data-endpoint="POSTapi-appointments"
-               value="23:26"
+               value="et"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>H:i</code>. Example: <code>23:26</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
-            <b style="line-height: 2;"><code>service_id</code></b>&nbsp;&nbsp;
+            <b style="line-height: 2;"><code>message</code></b>&nbsp;&nbsp;
 <small>string</small>&nbsp;
- &nbsp;
+<i>optional</i> &nbsp;
                 <input type="text" style="display: none"
-                              name="service_id"                data-endpoint="POSTapi-appointments"
-               value="soluta"
+                              name="message"                data-endpoint="POSTapi-appointments"
+               value="cum"
                data-component="body">
     <br>
-<p>The <code>id</code> of an existing record in the services table. Example: <code>soluta</code></p>
+<p>Example: <code>cum</code></p>
         </div>
         </form>
 
-                    <h2 id="endpoints-GETapi-appointments--id-">Display the specified resource.</h2>
+                    <h2 id="endpoints-GETapi-appointments--id-">GET api/appointments/{id}</h2>
 
 <p>
 </p>
@@ -502,7 +541,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://127.0.0.1:8000/api/appointments/nihil" \
+    --get "http://127.0.0.1:8000/api/appointments/dignissimos" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}"</code></pre></div>
@@ -510,7 +549,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/appointments/nihil"
+    "http://127.0.0.1:8000/api/appointments/dignissimos"
 );
 
 const headers = {
@@ -527,7 +566,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/appointments/nihil';
+$url = 'http://127.0.0.1:8000/api/appointments/dignissimos';
 $response = $client-&gt;get(
     $url,
     [
@@ -648,14 +687,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-appointments--id-"
-               value="nihil"
+               value="dignissimos"
                data-component="url">
     <br>
-<p>The ID of the appointment. Example: <code>nihil</code></p>
+<p>The ID of the appointment. Example: <code>dignissimos</code></p>
             </div>
                     </form>
 
-                    <h2 id="endpoints-PUTapi-appointments--id-">Update the specified resource in storage.</h2>
+                    <h2 id="endpoints-PUTapi-appointments--id-">PUT api/appointments/{id}</h2>
 
 <p>
 </p>
@@ -668,20 +707,20 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://127.0.0.1:8000/api/appointments/nemo" \
+    "http://127.0.0.1:8000/api/appointments/quia" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}" \
     --data "{
-    \"date\": \"2055-07-03\",
-    \"time\": \"23:26\"
+    \"date\": \"2052-11-02\",
+    \"time\": \"08:44\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/appointments/nemo"
+    "http://127.0.0.1:8000/api/appointments/quia"
 );
 
 const headers = {
@@ -691,8 +730,8 @@ const headers = {
 };
 
 let body = {
-    "date": "2055-07-03",
-    "time": "23:26"
+    "date": "2052-11-02",
+    "time": "08:44"
 };
 
 fetch(url, {
@@ -704,7 +743,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/appointments/nemo';
+$url = 'http://127.0.0.1:8000/api/appointments/quia';
 $response = $client-&gt;put(
     $url,
     [
@@ -714,8 +753,8 @@ $response = $client-&gt;put(
             'Authorization' =&gt; 'Bearer {token}',
         ],
         'json' =&gt; [
-            'date' =&gt; '2055-07-03',
-            'time' =&gt; '23:26',
+            'date' =&gt; '2052-11-02',
+            'time' =&gt; '08:44',
         ],
     ]
 );
@@ -817,10 +856,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PUTapi-appointments--id-"
-               value="nemo"
+               value="quia"
                data-component="url">
     <br>
-<p>The ID of the appointment. Example: <code>nemo</code></p>
+<p>The ID of the appointment. Example: <code>quia</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -829,10 +868,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="date"                data-endpoint="PUTapi-appointments--id-"
-               value="2055-07-03"
+               value="2052-11-02"
                data-component="body">
     <br>
-<p>Must be a valid date. Must be a date after or equal to <code>today</code>. Example: <code>2055-07-03</code></p>
+<p>Must be a valid date. Must be a date after or equal to <code>today</code>. Example: <code>2052-11-02</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>time</code></b>&nbsp;&nbsp;
@@ -840,14 +879,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="time"                data-endpoint="PUTapi-appointments--id-"
-               value="23:26"
+               value="08:44"
                data-component="body">
     <br>
-<p>Must be a valid date in the format <code>H:i</code>. Example: <code>23:26</code></p>
+<p>Must be a valid date in the format <code>H:i</code>. Example: <code>08:44</code></p>
         </div>
         </form>
 
-                    <h2 id="endpoints-DELETEapi-appointments--id-">Remove the specified resource from storage.</h2>
+                    <h2 id="endpoints-DELETEapi-appointments--id-">DELETE api/appointments/{id}</h2>
 
 <p>
 </p>
@@ -860,7 +899,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://127.0.0.1:8000/api/appointments/excepturi" \
+    "http://127.0.0.1:8000/api/appointments/voluptatem" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}"</code></pre></div>
@@ -868,7 +907,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/appointments/excepturi"
+    "http://127.0.0.1:8000/api/appointments/voluptatem"
 );
 
 const headers = {
@@ -885,7 +924,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/appointments/excepturi';
+$url = 'http://127.0.0.1:8000/api/appointments/voluptatem';
 $response = $client-&gt;delete(
     $url,
     [
@@ -990,10 +1029,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="DELETEapi-appointments--id-"
-               value="excepturi"
+               value="voluptatem"
                data-component="url">
     <br>
-<p>The ID of the appointment. Example: <code>excepturi</code></p>
+<p>The ID of the appointment. Example: <code>voluptatem</code></p>
             </div>
                     </form>
 
@@ -1164,7 +1203,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://127.0.0.1:8000/api/admin/bookings/architecto" \
+    --get "http://127.0.0.1:8000/api/admin/bookings/illo" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}"</code></pre></div>
@@ -1172,7 +1211,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/admin/bookings/architecto"
+    "http://127.0.0.1:8000/api/admin/bookings/illo"
 );
 
 const headers = {
@@ -1189,7 +1228,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/admin/bookings/architecto';
+$url = 'http://127.0.0.1:8000/api/admin/bookings/illo';
 $response = $client-&gt;get(
     $url,
     [
@@ -1310,10 +1349,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="GETapi-admin-bookings--id-"
-               value="architecto"
+               value="illo"
                data-component="url">
     <br>
-<p>The ID of the booking. Example: <code>architecto</code></p>
+<p>The ID of the booking. Example: <code>illo</code></p>
             </div>
                     </form>
 
@@ -1330,7 +1369,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PATCH \
-    "http://127.0.0.1:8000/api/admin/bookings/aut/approve" \
+    "http://127.0.0.1:8000/api/admin/bookings/est/approve" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}"</code></pre></div>
@@ -1338,7 +1377,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/admin/bookings/aut/approve"
+    "http://127.0.0.1:8000/api/admin/bookings/est/approve"
 );
 
 const headers = {
@@ -1355,7 +1394,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/admin/bookings/aut/approve';
+$url = 'http://127.0.0.1:8000/api/admin/bookings/est/approve';
 $response = $client-&gt;patch(
     $url,
     [
@@ -1460,10 +1499,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PATCHapi-admin-bookings--id--approve"
-               value="aut"
+               value="est"
                data-component="url">
     <br>
-<p>The ID of the booking. Example: <code>aut</code></p>
+<p>The ID of the booking. Example: <code>est</code></p>
             </div>
                     </form>
 
@@ -1480,7 +1519,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PATCH \
-    "http://127.0.0.1:8000/api/admin/bookings/eveniet/reject" \
+    "http://127.0.0.1:8000/api/admin/bookings/sit/reject" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}"</code></pre></div>
@@ -1488,7 +1527,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/admin/bookings/eveniet/reject"
+    "http://127.0.0.1:8000/api/admin/bookings/sit/reject"
 );
 
 const headers = {
@@ -1505,7 +1544,7 @@ fetch(url, {
 
 <div class="php-example">
     <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/admin/bookings/eveniet/reject';
+$url = 'http://127.0.0.1:8000/api/admin/bookings/sit/reject';
 $response = $client-&gt;patch(
     $url,
     [
@@ -1610,166 +1649,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="id"                data-endpoint="PATCHapi-admin-bookings--id--reject"
-               value="eveniet"
+               value="sit"
                data-component="url">
     <br>
-<p>The ID of the booking. Example: <code>eveniet</code></p>
+<p>The ID of the booking. Example: <code>sit</code></p>
             </div>
                     </form>
-
-                    <h2 id="endpoints-GETapi-appointments-search">GET api/appointments/search</h2>
-
-<p>
-</p>
-
-
-
-<span id="example-requests-GETapi-appointments-search">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://127.0.0.1:8000/api/appointments/search" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --header "Authorization: Bearer {token}"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://127.0.0.1:8000/api/appointments/search"
-);
-
-const headers = {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-    "Authorization": "Bearer {token}",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-
-<div class="php-example">
-    <pre><code class="language-php">$client = new \GuzzleHttp\Client();
-$url = 'http://127.0.0.1:8000/api/appointments/search';
-$response = $client-&gt;get(
-    $url,
-    [
-        'headers' =&gt; [
-            'Content-Type' =&gt; 'application/json',
-            'Accept' =&gt; 'application/json',
-            'Authorization' =&gt; 'Bearer {token}',
-        ],
-    ]
-);
-$body = $response-&gt;getBody();
-print_r(json_decode((string) $body));</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETapi-appointments-search">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary style="cursor: pointer;">
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre></details>         <pre>
-
-<code class="language-json" style="max-height: 300px;">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETapi-appointments-search" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETapi-appointments-search"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-appointments-search"
-      data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
-</span>
-<span id="execution-error-GETapi-appointments-search" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-appointments-search">
-
-Tip: Check that you&#039;re properly connected to the network.
-If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
-You can check the Dev Tools console for debugging information.</code></pre>
-</span>
-<form id="form-GETapi-appointments-search" data-method="GET"
-      data-path="api/appointments/search"
-      data-authed="0"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-appointments-search', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-appointments-search"
-                    onclick="tryItOut('GETapi-appointments-search');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-appointments-search"
-                    onclick="cancelTryOut('GETapi-appointments-search');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-appointments-search"
-                    data-initial-text="Send Request 💥"
-                    data-loading-text="⏱ Sending..."
-                    hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>api/appointments/search</code></b>
-        </p>
-                <h4 class="fancy-heading-panel"><b>Headers</b></h4>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Content-Type</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-appointments-search"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Accept</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-appointments-search"
-               value="application/json"
-               data-component="header">
-    <br>
-<p>Example: <code>application/json</code></p>
-            </div>
-                                <div style="padding-left: 28px; clear: unset;">
-                <b style="line-height: 2;"><code>Authorization</code></b>&nbsp;&nbsp;
-&nbsp;
- &nbsp;
-                <input type="text" style="display: none"
-                              name="Authorization"                data-endpoint="GETapi-appointments-search"
-               value="Bearer {token}"
-               data-component="header">
-    <br>
-<p>Example: <code>Bearer {token}</code></p>
-            </div>
-                        </form>
 
                     <h2 id="endpoints-POSTapi-login">POST api/login</h2>
 
@@ -1789,8 +1674,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --header "Authorization: Bearer {token}" \
     --data "{
-    \"email\": \"nkreiger@example.org\",
-    \"password\": \"autem\"
+    \"email\": \"kling.libby@example.net\",
+    \"password\": \"quo\"
 }"
 </code></pre></div>
 
@@ -1807,8 +1692,8 @@ const headers = {
 };
 
 let body = {
-    "email": "nkreiger@example.org",
-    "password": "autem"
+    "email": "kling.libby@example.net",
+    "password": "quo"
 };
 
 fetch(url, {
@@ -1830,8 +1715,8 @@ $response = $client-&gt;post(
             'Authorization' =&gt; 'Bearer {token}',
         ],
         'json' =&gt; [
-            'email' =&gt; 'nkreiger@example.org',
-            'password' =&gt; 'autem',
+            'email' =&gt; 'kling.libby@example.net',
+            'password' =&gt; 'quo',
         ],
     ]
 );
@@ -1929,10 +1814,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-login"
-               value="nkreiger@example.org"
+               value="kling.libby@example.net"
                data-component="body">
     <br>
-<p>Must be a valid email address. Example: <code>nkreiger@example.org</code></p>
+<p>Must be a valid email address. Example: <code>kling.libby@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -1940,10 +1825,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-login"
-               value="autem"
+               value="quo"
                data-component="body">
     <br>
-<p>Example: <code>autem</code></p>
+<p>Example: <code>quo</code></p>
         </div>
         </form>
 

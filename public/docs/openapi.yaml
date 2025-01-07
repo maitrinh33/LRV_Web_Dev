@@ -9,8 +9,8 @@ servers:
 paths:
   /api/appointments:
     get:
-      summary: 'API method to fetch appointments for the authenticated user with optional search.'
-      operationId: aPIMethodToFetchAppointmentsForTheAuthenticatedUserWithOptionalSearch
+      summary: ''
+      operationId: getApiAppointments
       description: ''
       parameters: []
       responses:
@@ -30,8 +30,8 @@ paths:
         - Endpoints
       security: []
     post:
-      summary: 'Store a newly created resource in storage.'
-      operationId: storeANewlyCreatedResourceInStorage
+      summary: ''
+      operationId: postApiAppointments
       description: ''
       parameters: []
       responses: {  }
@@ -44,30 +44,47 @@ paths:
             schema:
               type: object
               properties:
+                name:
+                  type: string
+                  description: ''
+                  example: suscipit
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: upton.bettye@example.com
+                  nullable: false
+                phone:
+                  type: string
+                  description: ''
+                  example: ratione
+                  nullable: false
                 date:
                   type: string
-                  description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
-                  example: '2116-10-10'
+                  description: 'Must be a valid date.'
+                  example: '2025-01-07T08:44:14'
                   nullable: false
                 time:
                   type: string
-                  description: 'Must be a valid date in the format <code>H:i</code>.'
-                  example: '23:26'
+                  description: ''
+                  example: et
                   nullable: false
-                service_id:
+                message:
                   type: string
-                  description: 'The <code>id</code> of an existing record in the services table.'
-                  example: soluta
-                  nullable: false
+                  description: ''
+                  example: cum
+                  nullable: true
               required:
+                - name
+                - email
+                - phone
                 - date
                 - time
-                - service_id
       security: []
   '/api/appointments/{id}':
     get:
-      summary: 'Display the specified resource.'
-      operationId: displayTheSpecifiedResource
+      summary: ''
+      operationId: getApiAppointmentsId
       description: ''
       parameters: []
       responses:
@@ -87,8 +104,8 @@ paths:
         - Endpoints
       security: []
     put:
-      summary: 'Update the specified resource in storage.'
-      operationId: updateTheSpecifiedResourceInStorage
+      summary: ''
+      operationId: putApiAppointmentsId
       description: ''
       parameters: []
       responses: {  }
@@ -104,17 +121,17 @@ paths:
                 date:
                   type: string
                   description: 'Must be a valid date. Must be a date after or equal to <code>today</code>.'
-                  example: '2055-07-03'
+                  example: '2052-11-02'
                   nullable: false
                 time:
                   type: string
                   description: 'Must be a valid date in the format <code>H:i</code>.'
-                  example: '23:26'
+                  example: '08:44'
                   nullable: false
       security: []
     delete:
-      summary: 'Remove the specified resource from storage.'
-      operationId: removeTheSpecifiedResourceFromStorage
+      summary: ''
+      operationId: deleteApiAppointmentsId
       description: ''
       parameters: []
       responses: {  }
@@ -126,7 +143,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the appointment.'
-        example: nihil
+        example: dignissimos
         required: true
         schema:
           type: string
@@ -179,7 +196,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the booking.'
-        example: architecto
+        example: illo
         required: true
         schema:
           type: string
@@ -198,7 +215,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the booking.'
-        example: aut
+        example: est
         required: true
         schema:
           type: string
@@ -217,32 +234,10 @@ paths:
         in: path
         name: id
         description: 'The ID of the booking.'
-        example: eveniet
+        example: sit
         required: true
         schema:
           type: string
-  /api/appointments/search:
-    get:
-      summary: ''
-      operationId: getApiAppointmentsSearch
-      description: ''
-      parameters: []
-      responses:
-        401:
-          description: ''
-          content:
-            application/json:
-              schema:
-                type: object
-                example:
-                  message: Unauthenticated.
-                properties:
-                  message:
-                    type: string
-                    example: Unauthenticated.
-      tags:
-        - Endpoints
-      security: []
   /api/login:
     post:
       summary: ''
@@ -262,12 +257,12 @@ paths:
                 email:
                   type: string
                   description: 'Must be a valid email address.'
-                  example: nkreiger@example.org
+                  example: kling.libby@example.net
                   nullable: false
                 password:
                   type: string
                   description: ''
-                  example: autem
+                  example: quo
                   nullable: false
               required:
                 - email
