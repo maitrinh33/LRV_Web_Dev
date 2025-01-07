@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\Booking; 
 use App\Models\Service; 
-
+use App\Jobs\ProcessBookingJob;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\BookingConfirmationMail;
 
 class BookingController extends Controller
 {
@@ -66,6 +68,9 @@ class BookingController extends Controller
         // Save the booking
         $data->save();
 
+        // Dispatch the Job (if any)
+        ProcessBookingJob::dispatch($data);
+
         try {
             // Your logic to create the booking here
 
@@ -119,4 +124,16 @@ class BookingController extends Controller
     {
         //
     }
+
+    public function sendConfirmationEmail()
+{
+    $booking = Booking::first(); // Lấy bản ghi đầu tiên từ bảng 'bookings'
+
+    if ($booking) {
+        Mail::to($booking->email)->send(new BookingConfirmationMail($booking));
+        return response()->json(['message' => 'Email sent successfully!']);
+    } else {
+        return response()->json(['message' => 'No booking found.'], 404);
+    }
+}
 }
