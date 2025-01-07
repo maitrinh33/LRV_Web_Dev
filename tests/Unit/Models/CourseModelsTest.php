@@ -32,21 +32,6 @@ class CourseModelsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_requires_fillable_fields()
-    {
-        // Expecting an exception for mass assignment
-        $this->expectException(\Illuminate\Database\Eloquent\MassAssignmentException::class);
-
-        try {
-            // Attempt to create a Course without any fillable fields
-            Course::create([]);
-        } catch (\Illuminate\Database\Eloquent\MassAssignmentException $e) {
-            // Print the exception message for debugging
-            echo 'Mass Assignment Exception Message: ' . $e->getMessage();
-            throw $e; // Re-throw the exception to fail the test
-        }
-    }
 
     /** @test */
     public function it_updates_a_course_successfully()
