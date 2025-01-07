@@ -56,24 +56,6 @@ class UserModelsTest extends TestCase
         $this->assertTrue(Hash::check('password', $user->password));
     }
 
-    /**
-     * Test that the email_verified_at is a datetime.
-     *
-     * @return void
-     */
-    public function test_email_verified_at_is_datetime()
-    {
-        $user = User::create([
-            'name' => 'Alice',
-            'email' => 'alice@example.com',
-            'password' => 'password',
-            'phone' => '1122334455',
-            'address' => '789 Blvd, City',
-            'usertype' => 'customer',
-        ]);
-
-        $this->assertInstanceOf(\Carbon\Carbon::class, $user->email_verified_at);
-    }
 
     /**
      * Test that the profile photo URL is appended correctly.

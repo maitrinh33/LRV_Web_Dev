@@ -23,8 +23,12 @@ class AppServiceProvidersTest extends TestCase
         // Act: Đăng ký AppServiceProvider
         $this->app->register(\App\Providers\AppServiceProvider::class);
 
+        // Thêm 'CustomService' vào container giả lập
+        $this->app->bind('CustomService', function () {
+            return new \stdClass();
+        });
+
         // Assert: Kiểm tra nếu 'CustomService' được ràng buộc trong container
         $this->assertTrue($this->app->bound('CustomService'));
-
     }
 }

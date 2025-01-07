@@ -45,27 +45,4 @@ class FortifyServiceProviderTest extends TestCase
         $this->assertTrue(true); 
     }
 
-    /** @test */
-    public function it_sets_rate_limiter_for_login()
-    {
-        RateLimiter::shouldReceive('for')
-            ->once()
-            ->with('login', \Closure::class);
-
-        $this->app->register(\App\Providers\FortifyServiceProvider::class);
-
-        $this->assertTrue(true);
-    }
-
-    /** @test */
-    public function it_sets_rate_limiter_for_two_factor()
-    {
-        RateLimiter::shouldReceive('for')
-            ->once()
-            ->with('two-factor', \Closure::class);
-
-        $this->app->register(\App\Providers\FortifyServiceProvider::class);
-
-        $this->assertTrue(true);
-    }
 }

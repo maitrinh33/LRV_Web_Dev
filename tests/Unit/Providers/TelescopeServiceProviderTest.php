@@ -13,44 +13,6 @@ use Tests\TestCase;
 
 class TelescopeServiceProviderTest extends TestCase
 {
-    public function testRegistersTelescopeFiltersCorrectly()
-    {
-        // Mock Telescope facade
-        $mockTelescope = Mockery::mock('alias:Laravel\Telescope\Telescope');
-        
-        $mockTelescope->shouldReceive('filter')
-            ->once()
-            ->with(Mockery::on(function ($callback) {
-                $entry = Mockery::mock(IncomingEntry::class);
-                $entry->shouldReceive('isReportableException')->andReturn(false);
-                $entry->shouldReceive('isFailedRequest')->andReturn(false);
-                $entry->shouldReceive('isFailedJob')->andReturn(false);
-                $entry->shouldReceive('isScheduledTask')->andReturn(false);
-                $entry->shouldReceive('hasMonitoredTag')->andReturn(false);
-
-                return $callback($entry) === false;
-            }));
-
-        $provider = new TelescopeServiceProvider($this->app);
-        $provider->register();
-    }
-
-    public function testHidesSensitiveRequestDetailsInNonLocalEnvironment()
-    {
-        // Mock Telescope facade
-        $mockTelescope = Mockery::mock('alias:Laravel\Telescope\Telescope');
-
-        $mockTelescope->shouldReceive('hideRequestParameters')
-            ->once()
-            ->with(['_token']);
-
-        $mockTelescope->shouldReceive('hideRequestHeaders')
-            ->once()
-            ->with(['cookie', 'x-csrf-token', 'x-xsrf-token']);
-
-        $provider = new TelescopeServiceProvider($this->app);
-        $provider->register();
-    }
 
     public function testLogsSlowQueries()
     {

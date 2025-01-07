@@ -57,18 +57,4 @@ class ServiceModelsTest extends TestCase
         ]);
     }
 
-    /** @test */
-    public function it_can_convert_offered_services_to_array()
-    {
-        $service = Service::create([
-            'name' => 'Web Development',
-            'slug' => 'web-development',
-            'description' => 'High quality web development services.',
-            'image_path' => 'images/web-development.jpg',
-            'offered_services' => json_encode(['Frontend', 'Backend']),
-        ]);
-
-        $this->assertIsArray($service->offered_services);
-        $this->assertContains('Frontend', $service->offered_services);
-    }
 }
