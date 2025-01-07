@@ -26,6 +26,9 @@ Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
+
+    Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
+    
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('bookings', BookingController::class);
     Route::get('index', [AdminController::class, 'index'])->name('admin.index');
@@ -37,6 +40,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('appointments', [AppointmentWebController::class, 'index'])->name('appointments.index');
     Route::get('appointments/{id}/edit', [AppointmentWebController::class, 'edit'])->name('appointments.edit');
     Route::post('appointments/{id}/cancel', [AppointmentWebController::class, 'cancel'])->name('appointments.cancel');
+
+    // Additional admin routes
+    Route::get('/admin/add-booking', [AdminController::class, 'addBooking']);
+    Route::get('/admin/appointments', [AdminController::class, 'showAppointments']);
 });
 
 // User profile route
