@@ -15,13 +15,13 @@ class TelescopeServiceProviderTest extends TestCase
     /** @test */
     public function it_registers_telescope_filters_correctly()
     {
-        // Arrange: Mock environment
+        // Arrange: Set environment to local
         $this->app['env'] = 'local';
 
         // Act: Register the TelescopeServiceProvider
         $this->app->register(TelescopeServiceProvider::class);
 
-        // Assert: Mock Telescope filter and check
+        // Assert: Check the filter is set correctly
         Telescope::filter(function (IncomingEntry $entry) {
             return $entry->isReportableException() ||
                    $entry->isFailedRequest() ||
@@ -30,33 +30,28 @@ class TelescopeServiceProviderTest extends TestCase
                    $entry->hasMonitoredTag();
         });
 
-        // Nếu không có lỗi trong filter, test sẽ thành công
+        // If no exceptions are thrown, test passes
         $this->assertTrue(true);
     }
 
     /** @test */
     public function it_hides_sensitive_request_details_in_non_local_environment(): void
     {
-        // Arrange: Set non-local environment
+        // Arrange: Set environment to production
         $this->app['env'] = 'production';
 
         // Mock Telescope facade
         $this->partialMock(Telescope::class, function ($mock) {
-            $mock->shouldReceive('hideRequestParameters')
-                ->once()
-                ->with(['_token']);
-            $mock->shouldReceive('hideRequestHeaders')
-                ->once()
-                ->with(['cookie', 'x-csrf-token', 'x-xsrf-token']);
+            $mock->shouldReceive('hideRequestParameters')->once()->with(['_token']);
+            $mock->shouldReceive('hideRequestHeaders')->once()->with(['cookie', 'x-csrf-token', 'x-xsrf-token']);
         });
 
         // Act: Register the TelescopeServiceProvider
-        $this->app->register(\App\Providers\TelescopeServiceProvider::class);
+        $this->app->register(TelescopeServiceProvider::class);
 
-        // Assert: Nếu không có lỗi, test sẽ thành công
+        // If no exceptions are thrown, test passes
         $this->assertTrue(true);
     }
-
 
     /** @test */
     public function it_logs_slow_queries()
@@ -66,7 +61,7 @@ class TelescopeServiceProviderTest extends TestCase
             $query = (object)[
                 'sql' => 'SELECT * FROM users',
                 'bindings' => [],
-                'time' => 1500, // Slow query
+                'time' => 1500, // Simulate a slow query
             ];
             $callback($query);
         });
@@ -79,27 +74,25 @@ class TelescopeServiceProviderTest extends TestCase
                 'time' => 1500,
             ]);
 
-        // Act: Boot the TelescopeServiceProvider
+        // Act: Register the TelescopeServiceProvider
         $this->app->register(TelescopeServiceProvider::class);
 
-        // Assert: Nếu không có lỗi, test sẽ thành công
+        // If no exceptions are thrown, test passes
         $this->assertTrue(true);
     }
 
     /** @test */
     public function it_defines_gate_correctly()
     {
-        // Arrange: Mock a user
-        $user = (object) ['usertype' => 'admin'];
-
-        // Act: Register the TelescopeServiceProvider
+        // Arrange: Register the TelescopeServiceProvider
         $this->app->register(TelescopeServiceProvider::class);
 
-        // Assert: Check if the gate allows admin users
-        $this->assertTrue(Gate::allows('viewTelescope', $user));
-
-        // Arrange: Mock a non-admin user
+        // Act: Create user objects for testing
+        $adminUser = (object) ['usertype' => 'admin'];
         $nonAdminUser = (object) ['usertype' => 'user'];
+
+        // Assert: Check if the gate allows admin users
+        $this->assertTrue(Gate::allows('viewTelescope', $adminUser));
 
         // Assert: Check if the gate denies non-admin users
         $this->assertFalse(Gate::allows('viewTelescope', $nonAdminUser));

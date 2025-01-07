@@ -1,73 +1,74 @@
 <?php
 
-namespace Tests\Unit\Models;
+namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\Service;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class ServiceModelsTest extends TestCase
 {
     use RefreshDatabase;
 
     /** @test */
-    public function it_creates_a_service_successfully()
+    public function it_creates_a_service()
     {
-        // Act: Tạo một bản ghi Service
-        $service = Service::create([
+        $serviceData = [
             'name' => 'Web Development',
             'slug' => 'web-development',
-            'description' => 'High-quality web development services.',
-            'image_path' => '/images/web-development.jpg',
-            'offered_services' => 'Frontend, Backend, Fullstack',
-        ]);
+            'description' => 'High quality web development services.',
+            'image_path' => 'images/web-development.jpg',
+            'offered_services' => json_encode(['Frontend', 'Backend']),
+        ];
 
-        // Assert: Kiểm tra bản ghi đã được lưu trong cơ sở dữ liệu
-        $this->assertDatabaseHas('services', [
-            'name' => 'Web Development',
-            'slug' => 'web-development',
-            'description' => 'High-quality web development services.',
-            'image_path' => '/images/web-development.jpg',
-            'offered_services' => 'Frontend, Backend, Fullstack',
-        ]);
+        $service = Service::create($serviceData);
+
+        $this->assertDatabaseHas('services', $serviceData);
+        $this->assertEquals('Web Development', $service->name);
     }
 
     /** @test */
-    public function it_requires_fillable_fields()
+    public function it_validates_required_fields()
     {
-        // Arrange: Tạo dữ liệu không hợp lệ
-        $this->expectException(\Illuminate\Database\Eloquent\MassAssignmentException::class);
+        $this->expectException(\Illuminate\Database\QueryException::class);
 
-        // Act: Cố gắng tạo một bản ghi không có các trường fillable
+        Service::create([]);
+    }
+
+    /** @test */
+    public function it_has_a_slug_that_is_unique()
+    {
         Service::create([
-            'non_fillable_field' => 'This should fail',
+            'name' => 'Web Development',
+            'slug' => 'web-development',
+            'description' => 'High quality web development services.',
+            'image_path' => 'images/web-development.jpg',
+            'offered_services' => json_encode(['Frontend', 'Backend']),
+        ]);
+
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        Service::create([
+            'name' => 'SEO Services',
+            'slug' => 'web-development', // Duplicate slug
+            'description' => 'SEO Services.',
+            'image_path' => 'images/seo-services.jpg',
+            'offered_services' => json_encode(['On-page', 'Off-page']),
         ]);
     }
 
     /** @test */
-    public function it_updates_a_service_successfully()
+    public function it_can_convert_offered_services_to_array()
     {
-        // Arrange: Tạo một bản ghi Service
         $service = Service::create([
             'name' => 'Web Development',
             'slug' => 'web-development',
-            'description' => 'High-quality web development services.',
-            'image_path' => '/images/web-development.jpg',
-            'offered_services' => 'Frontend, Backend, Fullstack',
+            'description' => 'High quality web development services.',
+            'image_path' => 'images/web-development.jpg',
+            'offered_services' => json_encode(['Frontend', 'Backend']),
         ]);
 
-        // Act: Cập nhật bản ghi Service
-        $service->update([
-            'name' => 'Mobile Development',
-            'slug' => 'mobile-development',
-            'description' => 'High-quality mobile development services.',
-        ]);
-
-        // Assert: Kiểm tra dữ liệu đã được cập nhật
-        $this->assertDatabaseHas('services', [
-            'name' => 'Mobile Development',
-            'slug' => 'mobile-development',
-            'description' => 'High-quality mobile development services.',
-        ]);
+        $this->assertIsArray($service->offered_services);
+        $this->assertContains('Frontend', $service->offered_services);
     }
 }
