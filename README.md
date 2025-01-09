@@ -54,8 +54,8 @@ npm install
 Open XAMPP and click "Start" for Apache and MySQL.
 
 ### **5. Migrate and Seed the Database**
-```bash
 Run database migrations and seeders:
+```bash
 php artisan migrate --seed
 ```
 
