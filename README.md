@@ -1,7 +1,7 @@
 # LRV_Web_Dev
 
 A full-stack web development project utilizing modern technologies for both backend and frontend to deliver an advanced and user-friendly application.
-
+![Makeup Service](public/images/homepage.png)
 ---
 
 ## **Technologies Used**
