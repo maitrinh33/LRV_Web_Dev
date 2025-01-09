@@ -30,38 +30,44 @@ Follow these steps to set up and run the application locally.
 ```bash
 git clone https://github.com/maitrinh33/LRV_Web_Dev.git
 cd LRV_Web_Dev/backend
+```
 
-2. Configure the Environment
+### **2. Configure the Environment**
 Create the .env file by copying the example:
 
 ```bash
 cp .env.example .env
-
+```
 Update database credentials in the .env file:
 Set the DB_DATABASE, DB_USERNAME, and DB_PASSWORD values.
 If using MySQL Workbench, replace the password with your MySQL credentials.
 If using XAMPP, leave the password empty.
 
-3. Install Dependencies
+### **3. Install Dependencies**
 Run the following commands to install PHP and Node.js dependencies:
 ```bash
 composer install
 npm install
-4. Start Apache and MySQL (XAMPP)
+```
+
+### **4. Start Apache and MySQL (XAMPP)**
 Open XAMPP and click "Start" for Apache and MySQL.
 
-5. Migrate and Seed the Database
+### **5. Migrate and Seed the Database**
 ```bash
 Run database migrations and seeders:
 php artisan migrate --seed
+```
 
-6. Start Development Servers
+### **6. Start Development Servers**
 Open one terminal for the frontend:
 ```bash
 npm run dev
+```
 Open another terminal for the backend:
 ```bash
 php artisan serve
-7. Access the Application
+```
+### **7. Access the Application**
 Visit the application at http://127.0.0.1:8000.
 
