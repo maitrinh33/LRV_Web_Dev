@@ -2,6 +2,9 @@
 
 
 A full-stack web development project utilizing modern technologies for both backend and frontend to deliver an advanced and user-friendly application.
+- Visit our UX/UI github link at: [Github](https://github.com/huyhoang2564/Final_Web_G9_2)
+- Visit our UX/UI website at: [Website (UX/UI)](https://tubaomakeup.netlify.app/)
+  
 ![Makeup Service](https://github.com/maitrinh33/LRV_Web_Dev/blob/main/472490367_1809450143200135_1887462490586298635_n.png)
 ---
 
