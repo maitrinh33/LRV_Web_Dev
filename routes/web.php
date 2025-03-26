@@ -18,19 +18,25 @@ use App\Http\Controllers\Web\AppointmentWebController;
 use App\Mail\BookingConfirmationMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Booking;
+Route::get('/sentry-test', function () {
+    throw new Exception('This is a test exception for Sentry!');
+});
 Route::get('/csrf-token', function () {
     return response()->json(['csrf_token' => csrf_token()]);
 });
+
 // Public routes (no authentication required)
+Route::post('/services/search', [ServiceController::class, 'search'])->name('services.search');
+
 Route::get('/', [HomeController::class, 'index'])->name('homes.index');
+Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
 Route::resource('bookings', BookingController::class);
 
 Route::get('/send-test-email', function () {
-    $booking = Booking::first(); // Lấy bản ghi đầu tiên từ bảng bookings
+    $booking = Booking::first(); 
     if ($booking) {
         Mail::to('test@example.com')->send(new BookingConfirmationMail($booking));
         return 'Test email has been sent!';

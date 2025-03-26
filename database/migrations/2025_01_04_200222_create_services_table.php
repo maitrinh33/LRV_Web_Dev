@@ -12,13 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('services', function (Blueprint $table) {
-            $table->id(); // Auto-incrementing ID
-            $table->string('name'); // Service name
-            $table->string('slug')->unique(); // Unique slug
-            $table->text('description'); // Service description
-            $table->string('image_path'); // Path to service image
-            $table->json('offered_services')->nullable(); // Offered services as JSON
-            $table->timestamps(); // Timestamps for created_at and updated_at
+            $table->id(); 
+            $table->string('name');
+            $table->string('slug')->unique(); 
+            $table->text('description'); 
+            $table->string('image_path'); 
+            $table->json('offered_services')->nullable(); 
+            $table->timestamps(); 
         });
     }
 

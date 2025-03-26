@@ -1,16 +1,7 @@
-// Placeholder functions for buttons
-function registerNow() {
-    alert("Register Now button clicked!");
-}
-
-function learnMore() {
-    alert("Learn More button clicked!");
-}
-
 // Countdown timer setup
 function startCountdown() {
     // Set the date we're counting down to
-    const countdownDate = new Date("Dec 31, 2024 23:59:59").getTime();
+    const countdownDate = new Date("Dec 31, 2026 23:59:59").getTime();
     
     // Update the countdown every 1 second
     const x = setInterval(function() {
@@ -24,6 +15,12 @@ function startCountdown() {
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        // Debugging logs
+        console.log("Distance:", distance);
+        console.log("Hours:", hours);
+        console.log("Minutes:", minutes);
+        console.log("Seconds:", seconds);
 
         // Output the result in elements with id="hours", "minutes", "seconds"
         document.getElementById("hours").innerHTML = hours < 10 ? '0' + hours : hours;
@@ -40,4 +37,6 @@ function startCountdown() {
     }, 1000);
 }
 
-startCountdown();
+// Start the countdown when the page loads
+document.addEventListener("DOMContentLoaded", startCountdown);
+

@@ -1,6 +1,6 @@
-<nav x-data="{ open: false }" class="">
+<nav x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto px-6">
         <div class="flex justify-between h-16">
             <div class="flex">
                 <!-- Logo -->
@@ -11,14 +11,14 @@
                 </div>-->
 
                 <!-- Navigation Links -->
-                <!-- <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                <!--<div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('Dashboard') }} 
                     </x-nav-link>
-                </div>
-            </div>-->
+                </div> -->
+            </div>
 
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
+            <div class="hidden sm:flex sm:items-center">
                 <!-- Teams Dropdown -->
                 @if (Laravel\Jetstream\Jetstream::hasTeamFeatures())
                     <div class="ms-3 relative">
@@ -108,6 +108,18 @@
                                 </x-dropdown-link>
                             @endif
 
+                            @if (Auth::check())
+                                @php
+                                    $usertype = Auth::user()->usertype;
+                                @endphp
+                        
+                                @if ($usertype === 'admin')
+                                    <x-dropdown-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+                                        {{ __('Admin Dashboard') }}
+                                    </x-dropdown-link>
+                                @endif
+                            @endif
+
                             <div class="border-t bg-white border-gray-200"></div>
 
                             <!-- Authentication -->
@@ -138,12 +150,6 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
         <!-- Responsive Settings Options -->
         <div class="pt-4 pb-1 border-t border-gray-200">
             <div class="flex items-center px-4">
@@ -160,6 +166,19 @@
             </div>
 
             <div class="mt-3 space-y-1">
+                <!-- Dash board -->
+
+                @if (Auth::check())
+                    @php
+                        $usertype = Auth::user()->usertype;
+                    @endphp
+            
+                    @if ($usertype === 'admin')
+                        <x-responsive-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
+                            {{ __('Admin Dashboard') }}
+                        </x-responsive-nav-link>
+                    @endif
+                @endif
                 <!-- Account Management -->
                 <x-responsive-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
                     {{ __('Profile') }}

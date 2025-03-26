@@ -59,11 +59,10 @@ class BookingController extends Controller
 
         // Assign user_id if authenticated
         if (Auth::check()) {
-            $data->user_id = Auth::id();  // For authenticated users, store their user_id
+            $data->user_id = Auth::id();  
         } else {
-            $data->guest_id = uniqid('guest_');  // For unauthenticated users, assign a guest_id
+            $data->guest_id = uniqid('guest_');  
         }
-
 
         // Save the booking
         $data->save();
@@ -72,8 +71,6 @@ class BookingController extends Controller
         ProcessBookingJob::dispatch($data);
 
         try {
-            // Your logic to create the booking here
-
             // Flash a success notification
             session()->flash('notification', [
                 'type' => 'success',

@@ -2,7 +2,7 @@
 
 @section('content')
     <!-- Search Form -->
-    <form method="GET" action="{{ route('appointments.index') }}" class="px-20 pt-32 flex justify-start">
+    <form method="GET" action="{{ route('appointments.index') }}" class="px-20 pt-20 flex justify-start">
         <input type="text" name="search" class="px-4 py-2 border-gray-300 rounded-full" placeholder="Search..." value="{{ request('search') }}">
         <button type="submit" class="ml-2 px-4 py-2 rounded-full bg-orange-950 text-white">Search</button>
     </form>

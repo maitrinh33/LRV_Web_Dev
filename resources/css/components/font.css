@@ -1,0 +1,55 @@
+* {
+    font-family: 'Instrument Sans', sans-serif; 
+}
+
+.satisfy-regular {
+    font-family: "Satisfy", serif;
+    font-weight: 400;
+    font-style: normal;
+}  
+
+.scope-one-regular {    
+    font-family: "Scope One", serif;
+    font-weight: 800;
+    font-style: normal;
+    font-size: 18px;
+}
+
+.Yrsa {
+    font-family: 'Yrsa', serif; 
+    font-size: 20px;
+    color: rgb(120, 115, 115); 
+}
+
+.quicksand {
+  font-family: "Quicksand", sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  font-style: normal;
+}
+
+.quicksand-regular {
+    font-family: "Quicksand", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.courgette-regular {
+    font-family: "Courgette", serif;
+    font-weight: 300;
+    font-style: normal;
+}
+
+.charm-bold {
+    font-family: "Charm", serif;
+    font-weight: 700;
+    font-style: normal;
+} 
+
+.lavishly-yours-bold {
+    font-family: "Lavishly Yours", serif;
+    font-weight: 500;
+    font-style: normal;
+}
+  
