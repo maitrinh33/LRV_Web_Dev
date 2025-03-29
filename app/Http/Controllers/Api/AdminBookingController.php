@@ -3,7 +3,9 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
+use App\Jobs\SendBookingStatusEmail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminBookingController extends Controller
 {
@@ -41,18 +43,30 @@ class AdminBookingController extends Controller
         $booking->status = 'approved';
         $booking->save();
 
+        // Dispatch the email job
+        SendBookingStatusEmail::dispatch($booking, 'approved');
+
         return response()->json(['message' => 'Booking approved successfully.'], 200);
     }
 
     /**
      * Reject the specified booking.
      */
-    public function reject($id)
+    public function reject(Request $request, $id)
     {
-        $booking = Booking::findOrFail($id);
-        $booking->status = 'rejected';
-        $booking->save();
+        try {
+            $booking = Booking::findOrFail($id);
+            $booking->status = 'rejected';
+            $booking->cancellation_reason = $request->cancellation_reason;
+            $booking->save();
 
-        return response()->json(['message' => 'Booking rejected successfully.'], 200);
+            // Dispatch the email job
+            SendBookingStatusEmail::dispatch($booking, 'rejected');
+
+            return response()->json(['message' => 'Booking rejected successfully.'], 200);
+        } catch (\Exception $e) {
+            \Log::error('Failed to reject booking: ' . $e->getMessage());
+            return response()->json(['error' => 'Failed to reject booking.'], 500);
+        }
     }
 }

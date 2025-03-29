@@ -16,7 +16,7 @@ class ServiceFactory extends Factory
             'slug' => $this->faker->slug,
             'description' => $this->faker->paragraph,
             'image_path' => $this->faker->imageUrl(),
-            'offered_services' => 'Service1, Service2, Service3',
+            'offered_services' => json_encode(['Service1', 'Service2', 'Service3']),
         ];
     }
 }

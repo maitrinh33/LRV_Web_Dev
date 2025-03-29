@@ -1,28 +1,19 @@
 <?php
-
 namespace App\View\Components;
 
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use App\Models\Course;
 
 class CourseCard extends Component
 {
-    public $course;  // Declare the variable that will hold course data
+    public Course $course;
 
-    /**
-     * Create a new component instance.
-     * 
-     * @param  \App\Models\Course  $course
-     * @return void
-     */
-    public function __construct($course)
+    public function __construct(Course $course)
     {
-        $this->course = $course; // Assign passed course data to the class variable
+        $this->course = $course;
     }
 
-    /**
-     * Get the view / contents that represent the component.
-     */
     public function render(): View
     {
         return view('components.course-card');

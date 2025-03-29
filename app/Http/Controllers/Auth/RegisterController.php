@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
@@ -17,7 +18,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
@@ -55,14 +56,26 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         // Create the user
-        $user = User::create([
+        return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'phone' => $data['phone'],
             'address' => $data['address'],
             'password' => Hash::make($data['password']),
+            'usertype' => 'user', // Explicitly set usertype to 'user'
         ]);
     }
-    
+
+    /**
+     * Handle a successful registration.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function registered(Request $request, $user)
+    {
+        return redirect('/');
+    }
 }
 

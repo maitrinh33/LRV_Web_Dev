@@ -13,6 +13,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Tables\Actions\Action;
+use App\Jobs\SendBookingStatusEmail;
 
 class BookingResource extends Resource
 {
@@ -117,17 +118,21 @@ class BookingResource extends Resource
             ->actions([
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\Action::make('approve')
-                    ->action(fn (Booking $record) => $record->update(['status' => 'approved']))
+                    ->action(function (Booking $record) {
+                        $record->update(['status' => 'approved']);
+                        SendBookingStatusEmail::dispatch($record, 'approved');
+                    })
                     ->requiresConfirmation()
                     ->color('success')
                     ->icon('heroicon-o-check')
                     ->visible(fn (Booking $record) => $record->status === 'pending'),
-                Tables\Actions\Action::make('cancel')
+                Tables\Actions\Action::make('reject')
                     ->action(function (Booking $record, array $data): void {
                         $record->update([
-                            'status' => 'cancelled',
+                            'status' => 'rejected',
                             'cancellation_reason' => $data['reason'] ?? null,
                         ]);
+                        SendBookingStatusEmail::dispatch($record, 'rejected');
                     })
                     ->form([
                         Forms\Components\Textarea::make('reason')
@@ -137,7 +142,7 @@ class BookingResource extends Resource
                     ->requiresConfirmation()
                     ->color('danger')
                     ->icon('heroicon-o-x-mark')
-                    ->visible(fn (Booking $record) => $record->status !== 'cancelled'),
+                    ->visible(fn (Booking $record) => $record->status !== 'rejected'),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([

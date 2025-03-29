@@ -23,7 +23,6 @@ html {
     padding: 0;
 }
 
-
 .bg-custom {
     background: linear-gradient(135deg, rgba(250, 185, 150, 0.8), rgba(240, 236, 233, 0.8), rgba(184, 208, 227, 0.8)), url('https://media.istockphoto.com/id/1159776728/vi/vec-to/n%E1%BB%81n-h%E1%BB%93ng-satin-l%E1%BB%A5a-m%E1%BB%81m-m%E1%BA%A1i-minh-h%E1%BB%8Da-vect%C6%A1.jpg?s=612x612&w=0&k=20&c=wDPUmSRNkkrCe6lJ55UJkWyAdSU3NuqM-3uO130xqkU=');
     background-size: cover;
