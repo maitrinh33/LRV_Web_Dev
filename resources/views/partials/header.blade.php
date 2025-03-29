@@ -1,4 +1,4 @@
-   <nav class="bg-white bg-opacity-50 backdrop-blur-md w-full px-4 lg:px-20 text-black z-50 fixed top-0 border-b-white">
+   <nav class="bg-white nav-bar bg-opacity-50 backdrop-blur-md w-full px-4 lg:px-20 text-black top-0 border-b-white">
         <div class="flex justify-between items-center h-24">
 
             <div class="hidden md:flex md:items-center md:space-x-8 uppercase">

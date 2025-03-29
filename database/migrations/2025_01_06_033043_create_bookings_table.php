@@ -22,10 +22,13 @@ return new class extends Migration
             $table->text('message')->nullable();  
             
             // Status of the booking, default is 'pending'
-            $table->enum('status', ['pending', 'approved', 'cancelled'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'cancelled', 'rejected'])->default('pending');
             
             // Reason for cancellation, nullable as it will only be used for cancelled bookings
             $table->text('cancellation_reason')->nullable();  
+    
+            // Foreign key to users table
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
     
             $table->timestamps();  // Created at and updated at timestamps
         });

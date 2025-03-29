@@ -12,11 +12,6 @@ class CourseController extends Controller
         // Fetch courses from the database
         $courses = Course::query();
 
-        // Apply filters if search or category is present
-        if ($request->has('search')) {
-            $courses->where('name', 'like', '%' . $request->search . '%');
-        }
-
         // Get the filtered courses
         $courses = $courses->get();
 

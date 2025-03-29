@@ -5,7 +5,7 @@
         <section>
             <div class="w-full h-400 relative bg-fixed bg-cover bg-center bg-no-repeat video-section" style="height: 470px;">
                 <video class="h-full w-full object-cover rounded-lg" autoplay muted loop>
-                    <source src="/src/image/intro/video-intro" type="video/mp4"/>
+                    <source src={{ asset ('images/intro/intro-video.mp4') }} type="video/mp4"/>
                     Your browser does not support the video tag.
                 </video>
                 <div class="absolute inset-0 flex items-center justify-center h-full bg-black bg-opacity-50">
@@ -52,21 +52,13 @@
                 <p class="Yrsa text-base md:text-2xl uppercase text-gray-800 p-5 lg:w-full">You deserve an approach to your look & vision that's as unique and unforgettable as you are. Since the very beginning, TuBao Academy has cultivated our reputation as the leading authority for Makeup Artistry</p>  
             </section> 
             
-            <!-- Search Section -->
-            <form method="GET" action="{{ route('courses.index') }}" class="mb-6">
-                <div class="flex justify-between items-center space-x-10">
-                    <input type="text" name="search" placeholder="Search course name..." value="{{ request('search') }}" 
-                    class="px-4 py-2 border border-gray-300 rounded-full">
-                </div>
-            </form>
-            <!-- Search Section -->
 
             <!-- Course Cards -->
             <section id="Projects" class="w-fit mx-auto grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6 mt-10">
                 @if($courses->isEmpty())
                     <p>No courses available.</p>
                 @else
-                    @foreach ($courses as $course)
+                    @foreach($courses as $course)
                         <x-course-card :course="$course" />
                     @endforeach
                 @endif

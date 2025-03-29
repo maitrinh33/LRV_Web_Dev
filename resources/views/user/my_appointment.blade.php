@@ -67,10 +67,12 @@
                             <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                                 {{ 
                                     $appointment->status === 'cancelled' ? 'bg-red-100 text-red-600' : 
-                                    ($appointment->status === 'approved' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800') 
+                                    ($appointment->status === 'approved' ? 'bg-green-100 text-green-800' : 
+                                    ($appointment->status === 'rejected' ? 'bg-red-100 text-red-600' : 'bg-yellow-100 text-yellow-800'))
                                 }}">
                                 {{ $appointment->status === 'cancelled' ? 'Cancelled' : 
-                                   ($appointment->status === 'approved' ? 'Approved' : 'Pending') 
+                                   ($appointment->status === 'approved' ? 'Approved' : 
+                                   ($appointment->status === 'rejected' ? 'Rejected' : 'Pending'))
                                 }}
                             </span>
                         </td>                            

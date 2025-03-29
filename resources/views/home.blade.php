@@ -1,9 +1,8 @@
 @extends('layouts.app')
 
 @section('content') 
-    <!--Hero - Homepage-->
 <!-- Hero - Homepage -->
-<section class="pt-28 px-4 lg:px-20">
+<section class="pt-10 px-4 lg:px-20">
     <div class="flex flex-wrap lg:justify-center items-center">
         <div class="relative flex flex-col lg:flex-row w-full">
             <!-- Left Column --> 

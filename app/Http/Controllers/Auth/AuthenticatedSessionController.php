@@ -35,7 +35,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('filament.admin.pages.dashboard');
         }
 
-        return redirect()->route('home');
+        return redirect('/');
     }
 
     /**
@@ -49,6 +49,6 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
-        return redirect()->route('home');
+        return redirect('/');
     }
 } 

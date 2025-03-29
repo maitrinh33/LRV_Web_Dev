@@ -38,7 +38,7 @@
         @include('partials.header') 
     </header>
 
-    <main>
+    <main class="mt-24">
         @yield('content', $slot ?? '')
         @stack('modals')
         <x-contact-modal />

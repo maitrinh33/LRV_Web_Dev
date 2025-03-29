@@ -28,7 +28,12 @@ class HomeController extends Controller
     
             // Redirect based on user type
             if ($usertype === 'admin') {
-                return redirect()->route('filament.admin.pages.dashboard');
+                try {
+                    return redirect()->route('filament.admin.pages.dashboard');
+                } catch (\Exception $e) {
+                    // If the admin dashboard route doesn't exist, show the home page
+                    return view('home', compact('makeupItems'));
+                }
             } else {
                 return view('home', compact('makeupItems'));
             }
@@ -44,6 +49,6 @@ class HomeController extends Controller
     public function logout()
     {
         Auth::logout();
-        return redirect()->route('home');
+        return redirect('/');
     }
 }

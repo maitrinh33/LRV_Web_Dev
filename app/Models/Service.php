@@ -26,4 +26,7 @@ class Service extends Model
     
     protected $fillable = ['name', 'slug', 'description', 'image_path', 'offered_services'];
     
+    protected $casts = [
+        'offered_services' => 'array'
+    ];
 }
