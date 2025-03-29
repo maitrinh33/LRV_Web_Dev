@@ -23,21 +23,27 @@ class HomeController extends Controller
         ];
     
         // Check if the user is authenticated
-        if (Auth::id()) {
+        if (Auth::check()) {
             $usertype = Auth::user()->usertype;
     
             // Redirect based on user type
-            if ($usertype === 'user') {
-                return view('home', compact('makeupItems'));
-            } elseif ($usertype === 'admin') {
-                return view('admin.index');
+            if ($usertype === 'admin') {
+                return redirect()->route('filament.admin.pages.dashboard');
             } else {
                 return view('home', compact('makeupItems'));
             }
         } 
         
-        // If not authenticated, still show the home page with makeup items
+        // If not authenticated, show the home page with makeup items
         return view('home', compact('makeupItems'));
     }
-    
+
+    /**
+     * Handle the logout redirect
+     */
+    public function logout()
+    {
+        Auth::logout();
+        return redirect()->route('home');
+    }
 }

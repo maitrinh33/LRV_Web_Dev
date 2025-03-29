@@ -6,7 +6,7 @@
             <div class="mb-0 col-span-full lg:col-span-3 ">
                 <div class="flex text-left justify-start items-center">
                     <div class="text-2xl cursor-pointer flex items-center">
-                        <a href="{{ route('homes.index') }}" class="flex justify-start items-center satisfy-regular">
+                        <a href="{{ route('home') }}" class="flex justify-start items-center satisfy-regular">
                             <img src=" {{ asset('images/logo/tblogo.png') }}" alt="Logo" class="foot-logo items-center mr-2 w-10 h-auto">
                             TuBao Makeup Academy
                         </a>
@@ -59,7 +59,7 @@
         <!--Grid-->
         <div class="py-7 border-t border-gray-100">
             <div class="flex items-center justify-start flex-col lg:justify-between lg:flex-row">
-                <span class="text-sm text-gray-500">©<a href="{{ route('homes.index') }}">TuBao Makeup</a> 2024, All rights reserved.</span>
+                <span class="text-sm text-gray-500">©<a href="{{ route('home') }}">TuBao Makeup</a> 2024, All rights reserved.</span>
                 <ul class="flex items-center gap-9 mt-4 lg:mt-0">
                     <li><a href="javascript:;" class="text-sm text-gray-500">Terms</a></li>
                     <li><a href="javascript:;" class="text-sm text-gray-500">Privacy</a></li>

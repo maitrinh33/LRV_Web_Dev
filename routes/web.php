@@ -2,7 +2,6 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\{
-    AdminController,
     HomeController,
     CourseController,
     ServiceController,
@@ -10,7 +9,6 @@ use App\Http\Controllers\{
     DashboardController,
     BookingController,
     ProfileController,
-
 };
 use App\Http\Controllers\Api\AppointmentController;
 use App\Http\Controllers\Api\AdminBookingController;
@@ -18,6 +16,7 @@ use App\Http\Controllers\Web\AppointmentWebController;
 use App\Mail\BookingConfirmationMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Booking;
+
 Route::get('/sentry-test', function () {
     throw new Exception('This is a test exception for Sentry!');
 });
@@ -26,14 +25,11 @@ Route::get('/csrf-token', function () {
 });
 
 // Public routes (no authentication required)
-Route::post('/services/search', [ServiceController::class, 'search'])->name('services.search');
-
-Route::get('/', [HomeController::class, 'index'])->name('homes.index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/intros', [IntroController::class, 'index'])->name('intros.index');
 Route::get('/courses', [CourseController::class, 'index'])->name('courses.index');
 Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
-Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
-Route::resource('bookings', BookingController::class);
+Route::post('/services/search', [ServiceController::class, 'search'])->name('services.search');
 
 Route::get('/send-test-email', function () {
     $booking = Booking::first(); 
@@ -47,22 +43,15 @@ Route::get('/send-test-email', function () {
 
 // Authenticated routes
 Route::middleware(['auth'])->group(function () {
-
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-    Route::get('index', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('appointments/show', [AdminController::class, 'show'])->name('admin.show');
-    Route::patch('/bookings/{id}/approve', [BookingController::class, 'approve'])->name('admin.bookings.approve');
-    Route::patch('/admin/{id}/reject', [BookingController::class, 'reject'])->name('admin.bookings.reject');
-
-    // Appointment web routes
+    // User profile routes
+    Route::get('/profile', [ProfileController::class, 'show'])->name('profile.show');
+    
+    // Booking routes
+    Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
+    Route::resource('bookings', BookingController::class);
+    
+    // Appointment routes
     Route::get('appointments', [AppointmentWebController::class, 'index'])->name('appointments.index');
     Route::get('appointments/{id}/edit', [AppointmentWebController::class, 'edit'])->name('appointments.edit');
     Route::post('appointments/{id}/cancel', [AppointmentWebController::class, 'cancel'])->name('appointments.cancel');
-
-    // Additional admin routes
-    Route::get('/admin/add-booking', [AdminController::class, 'addBooking']);
-    Route::get('/admin/appointments', [AdminController::class, 'showAppointments']);
 });
-
-// User profile route
-Route::middleware(['auth'])->get('/user/profile', [ProfileController::class, 'show'])->name('profile.show');
