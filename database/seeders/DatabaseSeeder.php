@@ -14,14 +14,20 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
-        DB::table('users')->truncate(); // This will remove all existing users
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
+        // Run AdminUserSeeder first to ensure admin exists
+        $this->call([
+            AdminUserSeeder::class,
         ]);
+
+        // Create test user if needed
+        if (!User::where('email', 'test@example.com')->exists()) {
+            User::factory()->create([
+                'name' => 'Test User',
+                'email' => 'test@example.com',
+            ]);
+        }
         
-        
+        // Run other seeders
         $this->call([
             CourseSeeder::class,
             ServiceSeeder::class,

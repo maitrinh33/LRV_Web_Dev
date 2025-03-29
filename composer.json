@@ -9,6 +9,7 @@
         "php": "^8.2",
         "dedoc/scramble": "^0.11.32",
         "doctrine/dbal": "^4.2",
+        "filament/filament": "^3.3",
         "http-interop/http-factory-guzzle": "^1.2",
         "illuminate/routing": "*",
         "knuckleswtf/scribe": "^4.39",
@@ -47,7 +48,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php artisan filament:upgrade"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"

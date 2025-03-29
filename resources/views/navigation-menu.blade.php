@@ -114,8 +114,8 @@
                                 @endphp
                         
                                 @if ($usertype === 'admin')
-                                    <x-dropdown-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
-                                        {{ __('Admin Dashboard') }}
+                                    <x-dropdown-link href="{{ config('filament.path') }}" class="bg-white">
+                                        {{ __('Admin Panel') }}
                                     </x-dropdown-link>
                                 @endif
                             @endif
@@ -174,8 +174,8 @@
                     @endphp
             
                     @if ($usertype === 'admin')
-                        <x-responsive-nav-link href="{{ route('admin.index') }}" :active="request()->routeIs('admin.index')">
-                            {{ __('Admin Dashboard') }}
+                        <x-responsive-nav-link href="{{ config('filament.path') }}">
+                            {{ __('Admin Panel') }}
                         </x-responsive-nav-link>
                     @endif
                 @endif

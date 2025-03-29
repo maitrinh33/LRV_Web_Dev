@@ -2,12 +2,12 @@
         <div class="flex justify-between items-center h-24">
 
             <div class="hidden md:flex md:items-center md:space-x-8 uppercase">
-                <a href="{{ route('homes.index') }}" class="flex-shrink-0 flex justify-between items-center">
+                <a href="{{ route('home') }}" class="flex-shrink-0 flex justify-between items-center">
                     <img class="h-16 w-auto" src="{{ asset('images/logo/tblogo.png') }}" alt="Logo">
                 </a>
 
                 <div class="mx-4 my-6 md:my-0">
-                    <a href="{{ route('homes.index') }}" class="text-black quicksand hover:text-yellow-800 duration-500 inline-flex items-center text-sm font-bold">
+                    <a href="{{ route('home') }}" class="text-black quicksand hover:text-yellow-800 duration-500 inline-flex items-center text-sm font-bold">
                         Home
                     </a>
                 </div>

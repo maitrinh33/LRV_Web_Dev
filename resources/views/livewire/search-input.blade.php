@@ -1,4 +1,3 @@
-
 <!--search-input.blade.php -->
 <div class="relative w-32 transition-all">
   <input
@@ -13,6 +12,13 @@
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
       </svg>
   </div>
+  <!-- Loading Spinner -->
+  <div id="loadingSpinner" class="absolute inset-y-0 right-0 flex items-center pr-3 hidden">
+      <svg class="animate-spin h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+          <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+      </svg>
+  </div>
   <!-- Search Suggestions -->
   <ul id="searchResults" class="absolute w-full bg-white border border-gray-300 rounded-lg shadow-lg mt-1 hidden max-h-56 overflow-auto z-50"></ul>
 </div>
@@ -23,6 +29,7 @@
       const searchResults = document.getElementById("searchResults");
       const searchContainer = searchInput.parentElement;
       const searchIcon = searchContainer.querySelector("svg");
+      const loadingSpinner = document.getElementById("loadingSpinner");
 
       let debounceTimer;
 
@@ -37,7 +44,7 @@
       });
 
       searchInput.addEventListener("blur", () => {
-          setTimeout(() => searchResults.classList.add("hidden"), 200); // Hide dropdown when clicking outside
+          setTimeout(() => searchResults.classList.add("hidden"), 200);
           searchContainer.classList.add("w-32");
           searchContainer.classList.remove("w-80", "bg-transparent");
           searchInput.placeholder = "Find..";
@@ -54,8 +61,13 @@
           if (query.length < 2) {
               searchResults.innerHTML = "";
               searchResults.classList.add("hidden");
+              loadingSpinner.classList.add("hidden");
               return;
           }
+
+          // Show loading spinner
+          loadingSpinner.classList.remove("hidden");
+          searchIcon.classList.add("hidden");
 
           debounceTimer = setTimeout(() => {
             fetch("{{ route('services.search') }}", {
@@ -66,7 +78,6 @@
                 },
                 body: JSON.stringify({ search: query }),
             })
-
               .then(response => response.json())
               .then(data => {
                   searchResults.innerHTML = "";
@@ -76,7 +87,7 @@
                           let item = document.createElement("li");
                           item.classList.add("p-2", "cursor-pointer", "hover:bg-gray-200", "border-b");
                           item.textContent = service.name;
-                          item.dataset.url = `/services#${service.slug}`; // Navigate to the section
+                          item.dataset.url = `/services#${service.slug}`;
 
                           item.addEventListener("click", () => {
                               window.location.href = item.dataset.url;
@@ -89,14 +100,18 @@
                       searchResults.classList.add("hidden");
                   }
               })
-              .catch(error => console.error("Error fetching search results:", error));
+              .catch(error => console.error("Error fetching search results:", error))
+              .finally(() => {
+                  // Hide loading spinner and show search icon
+                  loadingSpinner.classList.add("hidden");
+                  searchIcon.classList.remove("hidden");
+              });
           }, 300);
       });
 
       searchInput.addEventListener("keydown", function (event) {
           if (event.key === "Enter") {
               event.preventDefault();
-              // Check if there are any search results
               const firstResult = searchResults.querySelector("li");
               if (firstResult) {
                   window.location.href = firstResult.dataset.url;
@@ -105,7 +120,6 @@
           }
       });
 
-      
       function smoothScrollToSection(sectionId) {
           setTimeout(() => {
               const targetSection = document.getElementById(sectionId);
