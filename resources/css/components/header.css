@@ -41,4 +41,5 @@
     right: 2;
     min-width: 120px;
     border-radius: 15px;
+    z-index: 50; 
 }

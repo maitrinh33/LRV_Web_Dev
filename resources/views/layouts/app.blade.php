@@ -41,9 +41,6 @@
     <main class="mt-24">
         @yield('content', $slot ?? '')
         @stack('modals')
-            
-
-    
         <x-contact-modal />
     </main>
 
@@ -51,6 +48,7 @@
         @include('partials.footer')
     </footer>
 
-
+    @livewireScripts
+    @stack('scripts')
 </body>
 </html>

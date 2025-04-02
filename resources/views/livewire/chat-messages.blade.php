@@ -63,7 +63,7 @@
     </div>
 
     <!-- Messages List -->
-    <div class="flex-1 overflow-y-auto p-4 space-y-4 min-h-0" id="chat-messages" wire:key="chat-messages">
+    <div class="flex-1 overflow-y-auto p-4 space-y-4 min-h-0 h-[calc(100vh-180px)]" id="chat-messages" wire:poll.3s="loadMessages">
         @foreach($messages as $index => $message)
             <div id="message-{{ $index }}" class="{{ $message['sender_id'] === Auth::id() ? 'text-right' : 'text-left' }}" wire:key="message-{{ $message['id'] }}">
                 <div class="inline-block {{ $message['sender_id'] === Auth::id() ? 'bg-primary-500 text-white' : 'bg-gray-100 text-gray-900' }} rounded-lg px-4 py-2">
@@ -110,8 +110,9 @@
             <x-filament::button
                 type="submit"
                 color="primary"
+                class="cursor-pointer"
             >
-                Send
+                <x-heroicon-o-paper-airplane class="w-5 h-5" />
             </x-filament::button>
         </form>
     </div>
@@ -120,21 +121,38 @@
 @push('scripts')
 <script>
     document.addEventListener('livewire:initialized', function () {
+        let scrollTimeout;
+        const chatContainer = document.getElementById('chat-messages');
+
         // Function to scroll to bottom
         function scrollToBottom() {
-            const chatContainer = document.getElementById('chat-messages');
-            if (chatContainer) {
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-                // Add a small delay to ensure content is rendered
-                setTimeout(() => {
-                    chatContainer.scrollTop = chatContainer.scrollHeight;
-                }, 100);
+            if (!chatContainer) return;
+
+            // Clear any existing timeout
+            if (scrollTimeout) {
+                clearTimeout(scrollTimeout);
             }
+
+            // Scroll to bottom
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+
+            // Double-check scroll position after a short delay
+            scrollTimeout = setTimeout(() => {
+                chatContainer.scrollTop = chatContainer.scrollHeight;
+            }, 100);
         }
 
         // Listen for message events
-        Livewire.on('message-sent', scrollToBottom);
-        Livewire.on('messages-updated', scrollToBottom);
+        Livewire.on('message-sent', () => {
+            console.log('Message sent event received');
+            scrollToBottom();
+        });
+
+        // Listen for messages-updated event
+        Livewire.on('messages-updated', () => {
+            console.log('Messages updated event received');
+            scrollToBottom();
+        });
 
         // Listen for search navigation
         Livewire.on('scroll-to-message', (event) => {
@@ -149,6 +167,25 @@
 
         // Initial scroll to bottom
         scrollToBottom();
+
+        // Add a mutation observer to scroll to bottom when new messages are added
+        if (chatContainer) {
+            const observer = new MutationObserver((mutations) => {
+                // Only scroll if the mutation added new messages
+                const hasNewMessages = mutations.some(mutation => 
+                    mutation.addedNodes.length > 0 && 
+                    Array.from(mutation.addedNodes).some(node => 
+                        node.classList && node.classList.contains('message-item')
+                    )
+                );
+                
+                if (hasNewMessages) {
+                    scrollToBottom();
+                }
+            });
+            
+            observer.observe(chatContainer, { childList: true, subtree: true });
+        }
     });
 </script>
 @endpush

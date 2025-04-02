@@ -15,6 +15,10 @@ use App\Http\Controllers\Web\AppointmentWebController;
 use App\Mail\BookingConfirmationMail;
 use Illuminate\Support\Facades\Mail;
 use App\Models\Booking;
+use Illuminate\Support\Facades\Broadcast;
+
+// Broadcasting Authentication
+Broadcast::routes(['middleware' => ['web', 'auth']]);
 
 Route::get('/sentry-test', function () {
     throw new Exception('This is a test exception for Sentry!');

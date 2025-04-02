@@ -27,20 +27,112 @@ class ChatTest extends TestCase
 
         // Create admin user
         $this->admin = User::factory()->create([
-            'usertype' => 'admin',
+            'role' => 'admin'
         ]);
 
         // Create regular user
-        $this->user = User::factory()->create([
-            'usertype' => 'user',
+        $this->user = User::factory()->create();
+
+        // Create chat room
+        $this->chatRoom = ChatRoom::factory()->create([
+            'user_id' => $this->user->id
+        ]);
+    }
+
+    /** @test */
+    public function test_chat_message_can_be_sent()
+    {
+        $this->actingAs($this->admin);
+
+        $message = $this->faker->sentence();
+
+        $response = $this->postJson("/api/chat/{$this->chatRoom->id}/messages", [
+            'message' => $message
         ]);
 
-        // Create chat room for the user
-        $this->chatRoom = ChatRoom::create([
-            'user_id' => $this->user->id,
-            'name' => 'Test Chat Room',
-            'is_active' => true,
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('chat_messages', [
+            'chat_room_id' => $this->chatRoom->id,
+            'sender_id' => $this->admin->id,
+            'receiver_id' => $this->user->id,
+            'message' => $message
         ]);
+    }
+
+    /** @test */
+    public function test_new_chat_message_event_is_broadcasted()
+    {
+        Event::fake();
+
+        $this->actingAs($this->admin);
+
+        $message = ChatMessage::factory()->create([
+            'chat_room_id' => $this->chatRoom->id,
+            'sender_id' => $this->admin->id,
+            'receiver_id' => $this->user->id
+        ]);
+
+        broadcast(new NewChatMessage($message))->dispatch();
+
+        Event::assertDispatched(NewChatMessage::class, function ($event) use ($message) {
+            return $event->message->id === $message->id;
+        });
+    }
+
+    /** @test */
+    public function test_chat_messages_can_be_loaded()
+    {
+        $this->actingAs($this->admin);
+
+        // Create some test messages
+        ChatMessage::factory()->count(3)->create([
+            'chat_room_id' => $this->chatRoom->id,
+            'sender_id' => $this->admin->id,
+            'receiver_id' => $this->user->id
+        ]);
+
+        $response = $this->getJson("/api/chat/{$this->chatRoom->id}/messages");
+
+        $response->assertStatus(200)
+            ->assertJsonCount(3, 'messages');
+    }
+
+    /** @test */
+    public function test_chat_room_can_be_accessed_by_participants()
+    {
+        // Test admin access
+        $this->actingAs($this->admin);
+        $response = $this->getJson("/api/chat/{$this->chatRoom->id}");
+        $response->assertStatus(200);
+
+        // Test user access
+        $this->actingAs($this->user);
+        $response = $this->getJson("/api/chat/{$this->chatRoom->id}");
+        $response->assertStatus(200);
+
+        // Test unauthorized access
+        $unauthorizedUser = User::factory()->create();
+        $this->actingAs($unauthorizedUser);
+        $response = $this->getJson("/api/chat/{$this->chatRoom->id}");
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    public function test_chat_message_updates_chat_room_last_message()
+    {
+        $this->actingAs($this->admin);
+
+        $message = $this->faker->sentence();
+
+        $response = $this->postJson("/api/chat/{$this->chatRoom->id}/messages", [
+            'message' => $message
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->chatRoom->refresh();
+        $this->assertEquals($message, $this->chatRoom->last_message);
+        $this->assertNotNull($this->chatRoom->last_message_at);
     }
 
     /** @test */
