@@ -11,6 +11,7 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable implements MustVerifyEmail, FilamentUser
 {
@@ -73,5 +74,21 @@ class User extends Authenticatable implements MustVerifyEmail, FilamentUser
     public function canAccessPanel(Panel $panel): bool
     {
         return $this->usertype === 'admin';
+    }
+
+    /**
+     * Get the chat rooms associated with the user.
+     */
+    public function chatRooms(): HasMany
+    {
+        return $this->hasMany(ChatRoom::class);
+    }
+
+    /**
+     * Get the count of unread messages for the user.
+     */
+    public function unreadMessages()
+    {
+        return $this->hasMany(ChatMessage::class, 'sender_id', 'id')->where('is_read', false);
     }
 }

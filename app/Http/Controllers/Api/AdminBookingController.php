@@ -65,7 +65,6 @@ class AdminBookingController extends Controller
 
             return response()->json(['message' => 'Booking rejected successfully.'], 200);
         } catch (\Exception $e) {
-            \Log::error('Failed to reject booking: ' . $e->getMessage());
             return response()->json(['error' => 'Failed to reject booking.'], 500);
         }
     }

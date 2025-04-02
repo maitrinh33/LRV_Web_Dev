@@ -27,7 +27,7 @@
     <meta property="og:image" content="/src/image/logo/tubaologo.png">
     <meta property="og:url" content="http://www.tubaomakeup.com">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-LEDDYFYFQB"></script>
-    <script src="//unpkg.com/alpinejs" defer></script>
+    
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
@@ -41,6 +41,9 @@
     <main class="mt-24">
         @yield('content', $slot ?? '')
         @stack('modals')
+            
+
+    
         <x-contact-modal />
     </main>
 
@@ -48,6 +51,6 @@
         @include('partials.footer')
     </footer>
 
-    @livewireScripts
+
 </body>
 </html>
