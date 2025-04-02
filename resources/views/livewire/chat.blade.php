@@ -354,34 +354,75 @@
         let typingTimeout;
         const chatContainer = document.getElementById('chat-container');
 
-        window.Echo.private(`chat-channel.{{ $senderId }}`)
-            .listen('UserTyping', (event) => {
-                const messageInputField = document.getElementById('message-input');
-                if (messageInputField) {
-                    messageInputField.placeholder = 'Typing...';
-                }
-
-                clearTimeout(typingTimeout);
-                typingTimeout = setTimeout(() => {
-                    if (messageInputField) {
-                        messageInputField.placeholder = 'Type here...';
-                    }
-                }, 2000);
-            })
-
-            .listen('MessageSentEvent', (event) => {
-                const isInputFocused = document.activeElement === messageInputField;
-                const isScrolledToBottom = chatContainer.scrollTop + chatContainer.clientHeight >= chatContainer
-                    .scrollHeight - 10;
-
-                if (!isInputFocused || !isScrolledToBottom) {
-                    const audio = new Audio('{{ asset('sounds/notification.mp3') }}');
-                    audio.play();
-                }
+        // Enhanced WebSocket debugging
+        window.Echo.connector.socket.onopen = () => {
+            console.log('WebSocket connected successfully');
+            console.log('Connection details:', {
+                host: import.meta.env.VITE_REVERB_HOST,
+                port: import.meta.env.VITE_REVERB_PORT,
+                scheme: import.meta.env.VITE_REVERB_SCHEME
             });
+        };
+
+        window.Echo.connector.socket.onclose = (event) => {
+            console.log('WebSocket disconnected', event);
+        };
+
+        window.Echo.connector.socket.onerror = (error) => {
+            console.error('WebSocket error:', error);
+        };
+
+        window.Echo.connector.socket.onmessage = (event) => {
+            console.log('WebSocket message received:', event.data);
+        };
+
+        @if($chatRoomId)
+        // Subscribe to chat room channel with enhanced error handling
+        const chatChannel = window.Echo.private(`chat.{{ $chatRoomId }}`);
+        
+        chatChannel.subscribed(() => {
+            console.log('Successfully subscribed to chat channel:', '{{ $chatRoomId }}');
+        }).error((error) => {
+            console.error('Channel subscription error:', error);
+        });
+
+        // Add connection status monitoring
+        setInterval(() => {
+            if (window.Echo.connector.socket.readyState !== 1) {
+                console.warn('WebSocket connection is not open. Current state:', window.Echo.connector.socket.readyState);
+            }
+        }, 5000);
+
+        chatChannel.listen('UserTyping', (event) => {
+            console.log('Typing event received:', event);
+            const messageInputField = document.getElementById('message-input');
+            if (messageInputField) {
+                messageInputField.placeholder = 'Typing...';
+            }
+
+            clearTimeout(typingTimeout);
+            typingTimeout = setTimeout(() => {
+                if (messageInputField) {
+                    messageInputField.placeholder = 'Type here...';
+                }
+            }, 2000);
+        })
+        .listen('new-message', (event) => {
+            console.log('New message received:', event);
+            const isInputFocused = document.activeElement === messageInputField;
+            const isScrolledToBottom = chatContainer.scrollTop + chatContainer.clientHeight >= chatContainer
+                .scrollHeight - 10;
+
+            if (!isInputFocused || !isScrolledToBottom) {
+                const audio = new Audio('{{ asset('sounds/notification.mp3') }}');
+                audio.play();
+            }
+        });
+        @endif
 
         // Listen for Livewire events
         Livewire.on('messages-updated', () => {
+            console.log('Messages updated event received');
             setTimeout(() => {
                 scrollToBottom();
             }, 50);
@@ -389,6 +430,7 @@
 
         // Scroll to Message
         Livewire.on('scroll-to-message', (event) => {
+            console.log('Scroll to message event received:', event);
             const messageElement = document.getElementById(`message-${event.index}`);
             if (messageElement) {
                 messageElement.scrollIntoView({
@@ -400,6 +442,7 @@
 
         // Scroll on initial load
         window.onload = () => {
+            console.log('Window loaded, initializing chat');
             scrollToBottom();
         };
 

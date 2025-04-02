@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Livewire;
 
 use App\Models\ChatMessage;
 use App\Models\ChatRoom;
@@ -14,29 +14,58 @@ class UserChat extends Component
     public $messages = [];
     public $data = [];
     public $file;
+    public $userId;
+    public $search = '';
+    public $matchedIndexes = [];
+    public $currentMatch = -1;
+
+    public function mount($userId)
+    {
+        $this->userId = $userId;
+        $this->initializeChat();
+    }
+
+    public function initializeChat()
+    {
+        // Get or create chat room
+        $this->chatRoom = ChatRoom::where(function ($query) {
+            $query->where('user_id', Auth::id())
+                ->orWhere('user_id', $this->userId);
+        })->first();
+
+        if (!$this->chatRoom) {
+            $this->chatRoom = ChatRoom::create([
+                'user_id' => Auth::id(),
+                'name' => 'Chat with User',
+                'is_active' => true,
+            ]);
+        }
+
+        // Load initial messages
+        $this->loadMessages();
+    }
 
     public function getListeners()
     {
         return [
             "echo-private:chat.{$this->chatRoom->id},new-message" => 'handleNewMessage',
             "echo-private:user.{$this->chatRoom->user_id},new-message" => 'handleNewMessage',
+            "echo-private:user." . Auth::id() . ",new-message" => 'handleNewMessage',
             'messages-updated' => 'loadMessages',
+            'message-sent' => '$refresh',
         ];
     }
 
     public function handleNewMessage($event)
     {
         if ($event['message']['chat_room_id'] === $this->chatRoom->id) {
-            // Add the new message to the messages array
-            $this->messages[] = $event['message'];
+            // Convert the event message array into an Eloquent model with relationships
+            $newMessage = ChatMessage::find($event['message']['id'])->load(['sender', 'receiver']);
             
-            // Update chat room's last message
-            $this->chatRoom->update([
-                'last_message' => $event['message']['message'],
-                'last_message_at' => now(),
-            ]);
+            // Add the new message to the messages array immediately
+            $this->messages[] = $newMessage->toArray();
             
-            // Scroll to bottom
+            // Dispatch scroll event
             $this->dispatch('message-sent');
         }
     }
@@ -69,18 +98,87 @@ class UserChat extends Component
         ]);
         
         // Dispatch the event
-        event(new NewChatMessage($message));
+        broadcast(new NewChatMessage($message))->toOthers();
         
         // Reset the form
         $this->data = [];
         $this->file = null;
         
-        // Scroll to bottom
+        // Dispatch scroll event
         $this->dispatch('message-sent');
     }
 
     public function loadMessages()
     {
-        // Implement the logic to load messages from the database
+        $this->messages = ChatMessage::where('chat_room_id', $this->chatRoom->id)
+            ->with(['sender', 'receiver'])
+            ->orderBy('created_at', 'asc')
+            ->get()
+            ->toArray();
+    }
+
+    public function updatedSearch()
+    {
+        // Reset matches on new search
+        $this->matchedIndexes = [];
+
+        if (!empty($this->search)) {
+            foreach ($this->messages as $index => $message) {
+                if (stripos($message['message'], $this->search) !== false) {
+                    $this->matchedIndexes[] = $index;
+                }
+            }
+        }
+
+        // Reset to first match
+        $this->currentMatch = count($this->matchedIndexes) > 0 ? 0 : -1;
+
+        // Scroll to the first match
+        if ($this->currentMatch !== -1) {
+            $this->scrollToMatch();
+        }
+    }
+
+    public function nextMatch()
+    {
+        if (count($this->matchedIndexes) > 0) {
+            $this->currentMatch = ($this->currentMatch + 1) % count($this->matchedIndexes);
+            $this->scrollToMatch();
+        }
+    }
+
+    public function prevMatch()
+    {
+        if (count($this->matchedIndexes) > 0) {
+            $this->currentMatch = ($this->currentMatch - 1 + count($this->matchedIndexes)) % count($this->matchedIndexes);
+            $this->scrollToMatch();
+        }
+    }
+
+    public function scrollToMatch()
+    {
+        $index = $this->matchedIndexes[$this->currentMatch] ?? null;
+
+        if (!is_null($index)) {
+            $this->dispatch('scroll-to-message', index: $index);
+        }
+    }
+
+    public function resetSearch()
+    {
+        $this->search = '';
+        $this->matchedIndexes = [];
+        $this->currentMatch = -1;
+
+        // Scroll to latest message
+        $this->dispatch('messages-updated');
+    }
+
+    public function highlightText($text, $search)
+    {
+        // Escape the search term to safely insert into the regex
+        $escaped = preg_quote($search, '/');
+        // Use preg_replace to wrap matched terms in a <mark> tag
+        return preg_replace('/(' . $escaped . ')/i', '<mark>$1</mark>', e($text));
     }
 } 

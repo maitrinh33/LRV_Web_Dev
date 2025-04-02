@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use Livewire\Component;
 use Livewire\WithFileUploads;
+use App\Events\NewChatMessage;
 
 class Chat extends Component
 {
@@ -113,8 +114,8 @@ class Chat extends Component
         // Append the new message manually for the sender's side
         $this->messages[] = $sentMessage;
 
-        # Broadcast Sent Message Event
-        broadcast(new MessageSentEvent($sentMessage))->toOthers();
+        # Broadcast New Chat Message Event
+        broadcast(new NewChatMessage($sentMessage))->toOthers();
 
         # Calculate unread messages for the receiver
         $unreadCount = $this->getUnreadMessagesCount();
@@ -129,13 +130,26 @@ class Chat extends Component
         $this->dispatch('messages-updated');
     }
 
-    #[On('echo-private:chat-channel.{senderId},MessageSentEvent')]
+    public function getListeners()
+    {
+        if (!$this->chatRoomId) {
+            return [];
+        }
+        
+        return [
+            "echo-private:chat.{$this->chatRoomId},new-message" => 'listenMessage',
+            "echo-private:user.{$this->senderId},new-message" => 'listenMessage',
+            "echo-private:user.{$this->receiverId},new-message" => 'listenMessage',
+        ];
+    }
+
     public function listenMessage($event)
     {
-        # Convert the event message array into an Eloquent model with relationships
-        $newMessage = ChatMessage::find($event['message']['id'])->load('sender:id,name', 'receiver:id,name');
-
-        $this->messages[] = $newMessage;
+        if ($event['message']['chat_room_id'] === $this->chatRoomId) {
+            # Convert the event message array into an Eloquent model with relationships
+            $newMessage = ChatMessage::find($event['message']['id'])->load('sender:id,name', 'receiver:id,name');
+            $this->messages[] = $newMessage;
+        }
     }
 
     /**

@@ -46,9 +46,7 @@
                         Chat
                     </a>
                 </div>
-                @endauth
 
-                @auth
                 <div class="mx-4 my-6 md:my-0">
                     <a href="{{ route('appointments.index') }}" class="text-black quicksand hover:text-yellow-800 duration-500 inline-flex items-center text-sm font-bold">
                         Appointment
@@ -115,6 +113,7 @@
                 </div>
             </div>
             @auth
+                <a href="{{ route('chats.index') }}" class="bg-transparent text-black hover:bg-[#f4b299] hover:text-black block px-3 py-2 rounded-md quicksand font-semibold">Chat</a>
                 <a href="{{ route('appointments.index') }}" class="bg-transparent text-black hover:bg-[#f4b299] hover:text-black block px-3 py-2 rounded-md quicksand font-semibold">My Appointment</a>
             @endauth
         </div>

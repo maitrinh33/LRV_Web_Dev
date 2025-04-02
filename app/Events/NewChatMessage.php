@@ -25,9 +25,9 @@ class NewChatMessage implements ShouldBroadcast
     public function broadcastOn()
     {
         return [
-            new PrivateChannel('chat.' . $this->message->chat_room_id),
-            new PrivateChannel('user.' . $this->message->receiver_id),
-            new PrivateChannel('user.' . $this->message->sender_id),
+            new PrivateChannel("chat.{$this->message->chat_room_id}"),
+            new PrivateChannel("user.{$this->message->receiver_id}"),
+            new PrivateChannel("user.{$this->message->sender_id}"),
         ];
     }
 
@@ -63,6 +63,6 @@ class NewChatMessage implements ShouldBroadcast
 
     public function broadcastQueue()
     {
-        return 'broadcasts';
+        return 'default';
     }
 } 

@@ -93,7 +93,7 @@ class ChatMessages extends Component implements HasForms
         ]);
         
         // Dispatch the event
-        event(new NewChatMessage($message));
+        broadcast(new NewChatMessage($message));
         
         // Reset the form
         $this->data = [];
@@ -171,23 +171,19 @@ class ChatMessages extends Component implements HasForms
     public function getListeners()
     {
         return [
-            "echo-private:chat.{$this->chatRoom->id},new-message" => 'handleNewMessage',
-            "echo-private:user.{$this->chatRoom->user_id},new-message" => 'handleNewMessage',
+            "echo-private:chat.{$this->chatRoom->id},.new-message" => 'handleNewMessage',
+            "echo-private:user.{$this->chatRoom->user_id},.new-message" => 'handleNewMessage',
+            "echo-private:user." . Auth::id() . ",.new-message" => 'handleNewMessage',
             'messages-updated' => 'loadMessages',
+            'message-sent' => '$refresh',
         ];
     }
 
     public function handleNewMessage($event)
     {
         if ($event['message']['chat_room_id'] === $this->chatRoom->id) {
-            // Add the new message to the messages array
-            $this->messages[] = $event['message'];
-            
-            // Update chat room's last message
-            $this->chatRoom->update([
-                'last_message' => $event['message']['message'],
-                'last_message_at' => now(),
-            ]);
+            // Load the entire messages list to ensure proper order
+            $this->loadMessages();
             
             // Scroll to bottom
             $this->dispatch('message-sent');
