@@ -7,4 +7,5 @@ return [
     App\Providers\JetstreamServiceProvider::class,
     App\Providers\MeilisearchServiceProvider::class,
     App\Providers\TelescopeServiceProvider::class,
+    App\Providers\BroadcastServiceProvider::class,
 ];

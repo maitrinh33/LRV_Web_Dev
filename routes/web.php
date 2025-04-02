@@ -9,9 +9,8 @@ use App\Http\Controllers\{
     DashboardController,
     BookingController,
     ProfileController,
+    UserController,
 };
-use App\Http\Controllers\Api\AppointmentController;
-use App\Http\Controllers\Api\AdminBookingController;
 use App\Http\Controllers\Web\AppointmentWebController;
 use App\Mail\BookingConfirmationMail;
 use Illuminate\Support\Facades\Mail;
@@ -54,4 +53,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('appointments', [AppointmentWebController::class, 'index'])->name('appointments.index');
     Route::get('appointments/{id}/edit', [AppointmentWebController::class, 'edit'])->name('appointments.edit');
     Route::post('appointments/{id}/cancel', [AppointmentWebController::class, 'cancel'])->name('appointments.cancel');
+
+    // Chat routes
+    Route::get('chats', [UserController::class, 'index'])->name('chats.index');
+
+    Route::get('chats/{id}', [UserController::class, 'view'])->name('chats.view');
 });
